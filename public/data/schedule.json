@@ -207,7 +207,7 @@
       "name": "Dimensional Raid",
       "categoryId": "pvp-events",
       "icon": "mistmerrow",
-      "disabled": false
+      "disabled": true
     },
     {
       "id": "event-delphinad-ghost-ships",
@@ -305,7 +305,7 @@
       "categoryId": "other-events",
       "icon": "event",
       "description": "Help cheer up the Ezna or Moonswept Spirits as a part of the Hallowtide festival in Two Crowns.",
-      "disabled": false
+      "disabled": true
     },
     {
       "id": "event-halcyona-skirmish",
@@ -373,7 +373,7 @@
       "categoryId": "other-events",
       "icon": "event",
       "description": "The Lantern Festival in Gweonid Forest's Yata Lantern is only available for short periods of time throughout the day.",
-      "disabled": false
+      "disabled": true
     },
     {
       "id": "event-daily-reset",
@@ -396,14 +396,14 @@
       "name": "Faction Activity Reset",
       "categoryId": "other-events",
       "icon": "daily_reset",
-      "disabled": false
+      "disabled": true
     },
     {
       "id": "event-hero-nui-reset",
       "name": "Hero Nui Reset",
       "categoryId": "other-events",
       "icon": "daily_reset",
-      "disabled": false
+      "disabled": true
     },
     {
       "id": "event-the-merchants-day",
@@ -434,7 +434,7 @@
       "name": "DS Ocleera Rift",
       "categoryId": "rifts",
       "icon": "ocleera",
-      "disabled": false
+      "disabled": true
     },
     {
       "id": "event-diamond-shores",
@@ -460,8 +460,8 @@
       "disabled": false
     },
     {
-      "id": "event-gm-hide-seek-maybe",
-      "name": "GM Hide & Seek MAYBE",
+      "id": "event-gm-hide-seek",
+      "name": "GM Hide & Seek",
       "categoryId": "custom-events",
       "icon": "event",
       "disabled": false
@@ -490,15 +490,15 @@
       "disabled": false
     },
     {
-      "id": "event-gm-raging-tank-maybe",
-      "name": "GM Raging Tank MAYBE",
+      "id": "event-gm-raging-tank",
+      "name": "GM Raging Tank",
       "categoryId": "custom-events",
       "icon": "event",
       "disabled": false
     },
     {
-      "id": "event-gm-dragon-maybe",
-      "name": "GM Dragon MAYBE",
+      "id": "event-gm-dragon",
+      "name": "GM Dragon",
       "categoryId": "custom-events",
       "icon": "event",
       "disabled": false
@@ -518,8 +518,8 @@
       "disabled": false
     },
     {
-      "id": "event-gm-wonderland-races-maybe",
-      "name": "GM Wonderland Races MAYBE",
+      "id": "event-gm-wonderland-races",
+      "name": "GM Wonderland Races",
       "categoryId": "custom-events",
       "icon": "event",
       "disabled": false
@@ -1239,8 +1239,8 @@
       "days": []
     },
     {
-      "id": "event-gm-hide-seek-maybe-timer-1",
-      "eventId": "event-gm-hide-seek-maybe",
+      "id": "event-gm-hide-seek-timer-1",
+      "eventId": "event-gm-hide-seek",
       "time": "14:00",
       "duration": "00:30",
       "days": [
@@ -1437,8 +1437,8 @@
       "days": []
     },
     {
-      "id": "event-gm-raging-tank-maybe-timer-1",
-      "eventId": "event-gm-raging-tank-maybe",
+      "id": "event-gm-raging-tank-timer-1",
+      "eventId": "event-gm-raging-tank",
       "time": "18:00",
       "duration": "00:30",
       "days": [
@@ -1446,8 +1446,8 @@
       ]
     },
     {
-      "id": "event-gm-dragon-maybe-timer-1",
-      "eventId": "event-gm-dragon-maybe",
+      "id": "event-gm-dragon-timer-1",
+      "eventId": "event-gm-dragon",
       "time": "18:00",
       "duration": "00:30",
       "days": [
@@ -1693,8 +1693,8 @@
       "days": []
     },
     {
-      "id": "event-gm-wonderland-races-maybe-timer-1",
-      "eventId": "event-gm-wonderland-races-maybe",
+      "id": "event-gm-wonderland-races-timer-1",
+      "eventId": "event-gm-wonderland-races",
       "time": "23:00",
       "duration": "00:30",
       "days": [
