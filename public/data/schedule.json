@@ -499,7 +499,7 @@
     {
       "id": "event-gm-dragon",
       "name": "GM Dragon",
-      "categoryId": "custom-boss",
+      "categoryId": "custom-events",
       "icon": "dragon_black",
       "disabled": false
     },
