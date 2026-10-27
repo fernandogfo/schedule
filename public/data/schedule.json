@@ -493,14 +493,14 @@
       "id": "event-gm-raging-tank",
       "name": "GM Raging Tank",
       "categoryId": "custom-events",
-      "icon": "event",
+      "icon": "grimghast_rift",
       "disabled": false
     },
     {
       "id": "event-gm-dragon",
       "name": "GM Dragon",
-      "categoryId": "custom-events",
-      "icon": "event",
+      "categoryId": "custom-boss",
+      "icon": "dragon_black",
       "disabled": false
     },
     {
@@ -521,7 +521,7 @@
       "id": "event-gm-wonderland-races",
       "name": "GM Wonderland Races",
       "categoryId": "custom-events",
-      "icon": "event",
+      "icon": "cart",
       "disabled": false
     },
     {
