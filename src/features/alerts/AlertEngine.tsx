@@ -100,7 +100,9 @@ export function AlertEngine() {
             option.cueId ?? category?.reminderCueId ?? 'reminder',
           );
           if (wantsSpeech) {
-            messages.push(getReminderMessage(event, category, timer, next, now));
+            messages.push(
+              getReminderMessage(event, category, timer, next, now, option.leadSeconds),
+            );
           }
         });
       });

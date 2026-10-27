@@ -32,13 +32,16 @@ function buildVariables(
   timer: ScheduleTimer,
   occurrence: Occurrence,
   now: Dayjs,
+  leadSeconds?: number,
 ): MessageVariables {
   const duration = occurrence.durationSeconds
     ? formatDurationHuman(occurrence.durationSeconds)
     : 'now';
-  const remaining = formatDurationHuman(
-    Math.max(0, Math.floor(occurrence.start.diff(now, 'second', true))),
-  );
+  const remainingSeconds =
+    leadSeconds !== undefined
+      ? leadSeconds
+      : Math.max(0, Math.round(occurrence.start.diff(now, 'second', true)));
+  const remaining = formatDurationHuman(remainingSeconds);
 
   return {
     event: event.name,
@@ -60,7 +63,7 @@ export function getStartMessage(
     timer.messages.start ||
     category?.startMessage ||
     '{event} has started.';
-  const variables = buildVariables(event, timer, occurrence, now);
+  const variables = buildVariables(event, timer, occurrence, now, 0);
   const legacy = [
     variables.event,
     variables.duration,
@@ -76,12 +79,13 @@ export function getReminderMessage(
   timer: ScheduleTimer,
   occurrence: Occurrence,
   now: Dayjs,
+  leadSeconds?: number,
 ): string {
   const template =
     timer.messages.reminder ||
     category?.reminderMessage ||
     '{event} will start in {remaining}.';
-  const variables = buildVariables(event, timer, occurrence, now);
+  const variables = buildVariables(event, timer, occurrence, now, leadSeconds);
   const legacy = [
     variables.event,
     variables.remaining,

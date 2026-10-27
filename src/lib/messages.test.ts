@@ -81,4 +81,39 @@ describe('message interpolation', () => {
       ),
     ).toBe('Test Event will spawn in 10 minutes.');
   });
+
+  it('formats reminder phrases matching static audio manifest even with clock jitter', () => {
+    const category: Category = {
+      id: 'pvp-events',
+      name: 'PvP Events',
+      icon: 'pvp',
+      color: '#e8b600',
+      startMessage: '{event} has started.',
+      reminderMessage: '{event} will start in {remaining}.',
+    };
+
+    // Simulate clock jitter (fired 350ms after the target alert time)
+    const nowWithJitter = start.subtract(60, 'second').add(350, 'millisecond');
+
+    // 1 minute before (60s)
+    expect(
+      getReminderMessage(event, category, timer, occurrence, nowWithJitter, 60),
+    ).toBe('Test Event will start in 1 minute.');
+
+    // 7.5 minutes before (450s)
+    expect(
+      getReminderMessage(event, category, timer, occurrence, nowWithJitter, 450),
+    ).toBe('Test Event will start in 7 minutes 30 seconds.');
+
+    // 15 minutes before (900s)
+    expect(
+      getReminderMessage(event, category, timer, occurrence, nowWithJitter, 900),
+    ).toBe('Test Event will start in 15 minutes.');
+
+    // 30 minutes before (1800s)
+    expect(
+      getReminderMessage(event, category, timer, occurrence, nowWithJitter, 1800),
+    ).toBe('Test Event will start in 30 minutes.');
+  });
 });
+

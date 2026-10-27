@@ -93,8 +93,8 @@ export function SpeechProvider({ children }: { children: ReactNode }) {
   }, [browserSupported]);
 
   const selectedVoice = useMemo(() => {
-    if (staticClipsCount > 0 || xttsActive) return null; // Using cloned voice audio
     const available = voices;
+    if (available.length === 0) return null;
     if (tts.voiceURI) {
       const chosen = available.find((voice) => voice.voiceURI === tts.voiceURI);
       if (chosen) return chosen;
@@ -112,7 +112,7 @@ export function SpeechProvider({ children }: { children: ReactNode }) {
       available[0] ??
       null
     );
-  }, [staticClipsCount, xttsActive, tts.voiceURI, voices]);
+  }, [tts.voiceURI, voices]);
 
   const cancel = useCallback(() => {
     stopStaticClips();
@@ -123,31 +123,12 @@ export function SpeechProvider({ children }: { children: ReactNode }) {
     }
   }, [xttsActive, browserSupported]);
 
-  const speak = useCallback(
-    (text: string, interrupt = false) => {
-      const finalText = applyPronunciations(text, pronunciations);
-      if (!finalText.trim()) return false;
-
-      // ── Priority 1: Pre-generated static voice clip ────────────────────────
-      const staticUrl = getStaticClipUrl(finalText) ?? getStaticClipUrl(text);
-      if (staticUrl) {
-        if (interrupt) cancel();
-        void playStaticClip(staticUrl, tts.volume);
-        return true;
-      }
-
-      // ── Priority 2: XTTS server (if running) ───────────────────────────────
-      if (xttsActive) {
-        if (interrupt) cancel();
-        void xttsSpeakAsync(finalText, 'en');
-        return true;
-      }
-
-      // ── Priority 3: Browser SpeechSynthesis fallback ───────────────────────
+  const speakBrowser = useCallback(
+    (textToSpeak: string, interrupt = false): boolean => {
       if (!browserSupported) return false;
       if (interrupt) cancel();
 
-      const utterance = new SpeechSynthesisUtterance(finalText);
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
       const voice = selectedVoice;
       if (voice) {
         utterance.voice = voice;
@@ -167,7 +148,38 @@ export function SpeechProvider({ children }: { children: ReactNode }) {
         return false;
       }
     },
-    [cancel, pronunciations, selectedVoice, tts.pitch, tts.rate, tts.volume, xttsActive, browserSupported],
+    [browserSupported, cancel, selectedVoice, tts.pitch, tts.rate, tts.volume],
+  );
+
+  const speak = useCallback(
+    (text: string, interrupt = false) => {
+      const finalText = applyPronunciations(text, pronunciations);
+      if (!finalText.trim()) return false;
+
+      // ── Priority 1: Pre-generated static voice clip ────────────────────────
+      const staticUrl = getStaticClipUrl(finalText) ?? getStaticClipUrl(text);
+      if (staticUrl) {
+        if (interrupt) cancel();
+        void playStaticClip(staticUrl, tts.volume);
+        return true;
+      }
+
+      // ── Priority 2: XTTS server (if running) ───────────────────────────────
+      if (xttsActive) {
+        if (interrupt) cancel();
+        void xttsSpeakAsync(finalText, 'en').then((success) => {
+          if (!success) {
+            // Fallback to browser synthesis if XTTS fails or server is offline
+            speakBrowser(finalText, false);
+          }
+        });
+        return true;
+      }
+
+      // ── Priority 3: Browser SpeechSynthesis fallback ───────────────────────
+      return speakBrowser(finalText, interrupt);
+    },
+    [applyPronunciations, cancel, pronunciations, speakBrowser, tts.volume, xttsActive],
   );
 
   const value = useMemo<SpeechContextValue>(
