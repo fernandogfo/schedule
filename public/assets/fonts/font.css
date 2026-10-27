@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'Flareserif821BT-Roman';
+    src: url('./Flareserif821BT-Roman.svg#Flareserif821BT-Roman') format('svg'),
+    url('./Flareserif821BT-Roman.ttf') format('truetype'),
+    url('./Flareserif821BT-Roman.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'flareserif_821_roman';
+    src: url('./flareserif_821_roman.eot');
+    src: url('./flareserif_821_roman.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+

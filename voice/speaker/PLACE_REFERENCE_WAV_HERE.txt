@@ -1,0 +1,10 @@
+Place your voice reference WAV file here as:
+
+    voice/speaker/reference.wav
+
+Requirements:
+  - Format : WAV (PCM), 22 050 Hz or higher, mono or stereo
+  - Duration: 6 – 30 seconds  (10–15 s is optimal)
+  - Content : Clear speech, no background noise, no music
+
+If this file is absent the server will use the default XTTS-v2 built-in speaker voice.

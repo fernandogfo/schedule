@@ -1,0 +1,21 @@
+# Dependencies and outputs
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+
+# Python voice generator (kept outside Docker)
+voice/
+
+# Git and IDE
+.git
+.gitignore
+.vscode
+.idea
+*.log
+
+# Docker configs
+Dockerfile*
+docker-compose*.yml
+compose*.yaml

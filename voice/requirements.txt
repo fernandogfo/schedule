@@ -1,0 +1,23 @@
+# Core
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-dotenv>=1.0.0
+python-multipart>=0.0.9
+
+# XTTS-v2 — Community fork of Coqui TTS (the original 'TTS' package was discontinued)
+# https://pypi.org/project/coqui-tts/
+coqui-tts>=0.28.0
+
+# PyTorch — CPU build (works everywhere, slower inference)
+# For GPU (CUDA 12.1), comment the line above and uncomment the two below:
+# torch>=2.1.0 --index-url https://download.pytorch.org/whl/cu121
+# torchaudio>=2.1.0 --index-url https://download.pytorch.org/whl/cu121
+torch>=2.1.0
+torchaudio>=2.1.0
+
+# Audio processing
+soundfile>=0.12.1
+
+# Utilities
+pydantic>=2.0.0
+aiofiles>=23.0.0

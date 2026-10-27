@@ -1,0 +1,2141 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "ArcheAge Event Schedule",
+    "description": "World bosses, rifts, PvP events, festivals and cargo ship timers for ArcheAge.",
+    "updatedAt": "2026-10-26T19:40:45.270Z",
+    "eventIcons": [
+      "abyssal_attack",
+      "anthalon",
+      "archeage_green",
+      "archepass_reset",
+      "ayanad_merchant",
+      "boss_monster",
+      "camp3",
+      "cart",
+      "castle_siege",
+      "charybdis",
+      "crimson_rift",
+      "crimson_rift_zombie",
+      "daily_reset",
+      "delphinad_ghost_ships",
+      "dragon_black",
+      "dragon_red",
+      "event",
+      "fall_of_hiram",
+      "fish_fest",
+      "goldplain",
+      "grimghast_rift",
+      "ipyna",
+      "kadum",
+      "kraken",
+      "leviathan",
+      "lusca_awakening",
+      "mistmerrow",
+      "ocleera",
+      "pack",
+      "pioneer",
+      "pouch"
+    ],
+    "source": "Current ArcheAge weekly schedule"
+  },
+  "theme": {
+    "primary": "#009688",
+    "primaryContrast": "#ffffff",
+    "backgroundImage": "/assets/images/background.png",
+    "fontFamily": "\"Flareserif821BT-Roman\", \"Helvetica\", \"Arial\", sans-serif"
+  },
+  "settings": {
+    "defaultRegion": "NA",
+    "defaultVolume": 70,
+    "inGame": {
+      "offsetHours": 2,
+      "offsetMinutes": 20,
+      "cycleHours": 4,
+      "hourMinutes": 10
+    },
+    "refreshMinutes": 30
+  },
+  "categories": [
+    {
+      "id": "instances",
+      "name": "Instances",
+      "icon": "instance",
+      "color": "#f93a2f",
+      "startMessage": "{event} is now available for {duration}.",
+      "reminderMessage": "{event} will be available in {remaining} for {duration}.",
+      "startCueId": "start_other",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "rifts",
+      "name": "Rifts",
+      "icon": "torch",
+      "color": "#0ec268",
+      "startMessage": "The {event} has opened.",
+      "reminderMessage": "The {event} will open in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "world-bosses",
+      "name": "World Bosses",
+      "icon": "boss",
+      "color": "#0099ee",
+      "startMessage": "{event} has spawned.",
+      "reminderMessage": "{event} will spawn in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "custom-boss",
+      "name": "Custom Boss",
+      "icon": "boss",
+      "color": "#834bff",
+      "startMessage": "{event} has started.",
+      "reminderMessage": "{event} will start in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "pvp-events",
+      "name": "PvP Events",
+      "icon": "pvp",
+      "color": "#e8b600",
+      "startMessage": "{event} has started.",
+      "reminderMessage": "{event} will start in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "other-events",
+      "name": "Other Events",
+      "icon": "flag",
+      "color": "#a652bb",
+      "startMessage": "{event} has started.",
+      "reminderMessage": "{event} will start in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "zone-war",
+      "name": "Zone War",
+      "icon": "war",
+      "color": "#e67e22",
+      "startMessage": "{event} has fallen into a state of war for {duration}.",
+      "reminderMessage": "{event} will fall into a state of war in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    },
+    {
+      "id": "custom-events",
+      "name": "Custom Events",
+      "icon": "exploration",
+      "color": "#0fcdd2",
+      "startMessage": "{event} has started.",
+      "reminderMessage": "{event} will start in {remaining}.",
+      "startCueId": "start",
+      "reminderCueId": "reminder"
+    }
+  ],
+  "events": [
+    {
+      "id": "event-hasla-2-rifts",
+      "name": "Hasla 2 Rifts",
+      "categoryId": "rifts",
+      "icon": "crimson_rift_zombie",
+      "link": "https://na.archerage.to/forums/index.php?threads/game-event-hasla-zombie-apocalypse.4536/",
+      "disabled": false
+    },
+    {
+      "id": "event-black-dragon",
+      "name": "Black Dragon",
+      "categoryId": "world-bosses",
+      "icon": "dragon_black",
+      "link": "https://na.archerage.to/forums/threads/events-mini-guide.8861/post-80914",
+      "disabled": false
+    },
+    {
+      "id": "event-castle",
+      "name": "Castle",
+      "categoryId": "pvp-events",
+      "icon": "castle_siege",
+      "disabled": false
+    },
+    {
+      "id": "event-red-dragon-s-keep",
+      "name": "Red Dragon's Keep",
+      "categoryId": "instances",
+      "icon": "dragon_red",
+      "link": "/guides/red-dragons-keep",
+      "disabled": false
+    },
+    {
+      "id": "event-kadum",
+      "name": "Kadum",
+      "categoryId": "instances",
+      "icon": "kadum",
+      "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67877",
+      "disabled": false
+    },
+    {
+      "id": "event-leviathan",
+      "name": "Leviathan",
+      "categoryId": "world-bosses",
+      "icon": "leviathan",
+      "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67987",
+      "disabled": false
+    },
+    {
+      "id": "event-crimson-rift",
+      "name": "Crimson Rift",
+      "categoryId": "rifts",
+      "icon": "crimson_rift",
+      "link": "/guides/honor-dailies#crimson-rift",
+      "disabled": false
+    },
+    {
+      "id": "event-abyssal-attack",
+      "name": "Abyssal Attack",
+      "categoryId": "pvp-events",
+      "icon": "abyssal_attack",
+      "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67858",
+      "disabled": false
+    },
+    {
+      "id": "event-dimensional-raid",
+      "name": "Dimensional Raid",
+      "categoryId": "pvp-events",
+      "icon": "mistmerrow",
+      "disabled": false
+    },
+    {
+      "id": "event-delphinad-ghost-ships",
+      "name": "Delphinad Ghost Ships",
+      "categoryId": "world-bosses",
+      "icon": "delphinad_ghost_ships",
+      "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67882",
+      "disabled": false
+    },
+    {
+      "id": "event-guardian-scramble",
+      "name": "Guardian Scramble",
+      "categoryId": "instances",
+      "icon": "goldplain",
+      "disabled": false
+    },
+    {
+      "id": "event-anthalon-garden",
+      "name": "Anthalon (Garden)",
+      "categoryId": "world-bosses",
+      "icon": "anthalon",
+      "disabled": false
+    },
+    {
+      "id": "event-garden-of-the-gods",
+      "name": "Garden of the Gods",
+      "categoryId": "zone-war",
+      "icon": "archeage_green",
+      "description": "Garden enters war every 2 hours.",
+      "disabled": false
+    },
+    {
+      "id": "event-lusca-awakening",
+      "name": "Lusca Awakening",
+      "categoryId": "rifts",
+      "icon": "lusca_awakening",
+      "link": "/guides/honor-dailies#lusca-awakening",
+      "disabled": false
+    },
+    {
+      "id": "event-wonderland-miraculous-races",
+      "name": "Wonderland Miraculous Races",
+      "categoryId": "custom-events",
+      "icon": "cart",
+      "disabled": false
+    },
+    {
+      "id": "event-exile-language-tutor",
+      "name": "Exile Language Tutor",
+      "categoryId": "other-events",
+      "icon": "event",
+      "disabled": false
+    },
+    {
+      "id": "event-crimson-rift-auroria",
+      "name": "Crimson Rift (Auroria)",
+      "categoryId": "rifts",
+      "icon": "anthalon",
+      "link": "/guides/honor-dailies#crimson-rift",
+      "disabled": false
+    },
+    {
+      "id": "event-aragog",
+      "name": "Aragog",
+      "categoryId": "custom-boss",
+      "icon": "boss_monster",
+      "link": "https://na.archerage.to/forums/threads/events-mini-guide.8861/post-78715",
+      "disabled": false
+    },
+    {
+      "id": "event-charybdis",
+      "name": "Charybdis",
+      "categoryId": "world-bosses",
+      "icon": "charybdis",
+      "link": "https://na.archerage.to/forums/threads/events-mini-guide.8861/post-84819",
+      "disabled": false
+    },
+    {
+      "id": "event-akasch-invasion",
+      "name": "Akasch Invasion",
+      "categoryId": "pvp-events",
+      "icon": "ipyna",
+      "disabled": false
+    },
+    {
+      "id": "event-hiram-rift",
+      "name": "Hiram Rift",
+      "categoryId": "rifts",
+      "icon": "crimson_rift",
+      "disabled": false
+    },
+    {
+      "id": "event-troubled-spirits",
+      "name": "Troubled Spirits",
+      "categoryId": "other-events",
+      "icon": "event",
+      "description": "Help cheer up the Ezna or Moonswept Spirits as a part of the Hallowtide festival in Two Crowns.",
+      "disabled": false
+    },
+    {
+      "id": "event-halcyona-skirmish",
+      "name": "Halcyona Skirmish",
+      "categoryId": "instances",
+      "icon": "camp3",
+      "disabled": false
+    },
+    {
+      "id": "event-evenbard",
+      "name": "Evenbard",
+      "categoryId": "world-bosses",
+      "icon": "boss_monster",
+      "disabled": false
+    },
+    {
+      "id": "event-grimghast-rift",
+      "name": "Grimghast Rift",
+      "categoryId": "rifts",
+      "icon": "grimghast_rift",
+      "link": "/guides/honor-dailies#grimghast-rift",
+      "disabled": false
+    },
+    {
+      "id": "event-wonderland-boss",
+      "name": "Wonderland Boss",
+      "categoryId": "world-bosses",
+      "icon": "boss_monster",
+      "disabled": false
+    },
+    {
+      "id": "event-sea-spirit-general",
+      "name": "Sea Spirit General",
+      "categoryId": "custom-boss",
+      "icon": "boss_monster",
+      "link": "https://na.archerage.to/forums/threads/events-mini-guide.8861/post-76568",
+      "disabled": false
+    },
+    {
+      "id": "event-harbinger",
+      "name": "Harbinger",
+      "categoryId": "custom-boss",
+      "icon": "boss_monster",
+      "link": "https://na.archerage.to/forums/threads/events-mini-guide.8861/#post-76568",
+      "disabled": false
+    },
+    {
+      "id": "event-jola-meina-glenn",
+      "name": "Jola, Meina, & Glenn",
+      "categoryId": "world-bosses",
+      "icon": "boss_monster",
+      "link": "/guides/meina-and-glenn",
+      "disabled": false
+    },
+    {
+      "id": "event-noryette-arena",
+      "name": "Noryette Arena",
+      "categoryId": "instances",
+      "icon": "goldplain",
+      "disabled": false
+    },
+    {
+      "id": "event-the-yata-lantern",
+      "name": "The Yata Lantern",
+      "categoryId": "other-events",
+      "icon": "event",
+      "description": "The Lantern Festival in Gweonid Forest's Yata Lantern is only available for short periods of time throughout the day.",
+      "disabled": false
+    },
+    {
+      "id": "event-daily-reset",
+      "name": "Daily Reset",
+      "categoryId": "other-events",
+      "icon": "daily_reset",
+      "description": "All daily content unlocks again, resetting daily quests and instance entries.",
+      "disabled": false
+    },
+    {
+      "id": "event-weekly-reset",
+      "name": "Weekly Reset",
+      "categoryId": "other-events",
+      "icon": "archepass_reset",
+      "description": "Weekly quests and ArchePass missions reset.",
+      "disabled": false
+    },
+    {
+      "id": "event-faction-activity-reset",
+      "name": "Faction Activity Reset",
+      "categoryId": "other-events",
+      "icon": "daily_reset",
+      "disabled": false
+    },
+    {
+      "id": "event-hero-nui-reset",
+      "name": "Hero Nui Reset",
+      "categoryId": "other-events",
+      "icon": "daily_reset",
+      "disabled": false
+    },
+    {
+      "id": "event-the-merchants-day",
+      "name": "The Merchants Day!",
+      "categoryId": "custom-events",
+      "icon": "pack",
+      "link": "https://na.archerage.to/forums/index.php?threads/game-event-the-merchants-day.8578/",
+      "disabled": false
+    },
+    {
+      "id": "event-the-fishers-day",
+      "name": "The Fishers Day!",
+      "categoryId": "custom-events",
+      "icon": "fish_fest",
+      "link": "https://na.archerage.to/forums/index.php?threads/game-event-the-fishers-day.8577/",
+      "disabled": false
+    },
+    {
+      "id": "event-treasures-hunter-day",
+      "name": "Treasures Hunter Day!",
+      "categoryId": "custom-events",
+      "icon": "pouch",
+      "link": "https://na.archerage.to/forums/index.php?threads/game-event-treasures-hunter-day.8637/",
+      "disabled": false
+    },
+    {
+      "id": "event-ds-ocleera-rift",
+      "name": "DS Ocleera Rift",
+      "categoryId": "rifts",
+      "icon": "ocleera",
+      "disabled": false
+    },
+    {
+      "id": "event-diamond-shores",
+      "name": "Diamond Shores",
+      "categoryId": "zone-war",
+      "icon": "pioneer",
+      "description": "Diamond Shores enters war four times per day.",
+      "disabled": false
+    },
+    {
+      "id": "event-server-maintenance",
+      "name": "Server Maintenance",
+      "categoryId": "other-events",
+      "icon": "daily_reset",
+      "disabled": false
+    },
+    {
+      "id": "event-the-fall-of-hiram-city",
+      "name": "The Fall of Hiram City",
+      "categoryId": "instances",
+      "icon": "fall_of_hiram",
+      "link": "https://na.archerage.to/forums/threads/events-mini-guide.8861/post-80124",
+      "disabled": false
+    },
+    {
+      "id": "event-gm-hide-seek-maybe",
+      "name": "GM Hide & Seek MAYBE",
+      "categoryId": "custom-events",
+      "icon": "event",
+      "disabled": false
+    },
+    {
+      "id": "event-kraken",
+      "name": "Kraken",
+      "categoryId": "world-bosses",
+      "icon": "kraken",
+      "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67857",
+      "disabled": false
+    },
+    {
+      "id": "event-ayanad-merchant",
+      "name": "Ayanad Merchant",
+      "categoryId": "other-events",
+      "icon": "ayanad_merchant",
+      "disabled": false
+    },
+    {
+      "id": "event-hasla-1-rift",
+      "name": "Hasla 1 Rift",
+      "categoryId": "rifts",
+      "icon": "crimson_rift_zombie",
+      "link": "https://na.archerage.to/forums/index.php?threads/game-event-hasla-zombie-apocalypse.4536/",
+      "disabled": false
+    },
+    {
+      "id": "event-gm-raging-tank-maybe",
+      "name": "GM Raging Tank MAYBE",
+      "categoryId": "custom-events",
+      "icon": "event",
+      "disabled": false
+    },
+    {
+      "id": "event-gm-dragon-maybe",
+      "name": "GM Dragon MAYBE",
+      "categoryId": "custom-events",
+      "icon": "event",
+      "disabled": false
+    },
+    {
+      "id": "event-kraken-cultist",
+      "name": "Kraken Cultist",
+      "categoryId": "custom-boss",
+      "icon": "kraken",
+      "disabled": false
+    },
+    {
+      "id": "event-wonderland-treasure",
+      "name": "Wonderland Treasure",
+      "categoryId": "other-events",
+      "icon": "pouch",
+      "disabled": false
+    },
+    {
+      "id": "event-gm-wonderland-races-maybe",
+      "name": "GM Wonderland Races MAYBE",
+      "categoryId": "custom-events",
+      "icon": "event",
+      "disabled": false
+    },
+    {
+      "id": "event-jadegale-hasla-rift",
+      "name": "Jadegale Hasla Rift",
+      "categoryId": "rifts",
+      "icon": "crimson_rift_zombie",
+      "link": "https://na.archerage.to/forums/index.php?threads/game-event-hasla-zombie-apocalypse.4536/",
+      "disabled": false
+    }
+  ],
+  "timers": [
+    {
+      "id": "event-hasla-2-rifts-timer-1",
+      "eventId": "event-hasla-2-rifts",
+      "time": "00:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-black-dragon-timer-1",
+      "eventId": "event-black-dragon",
+      "time": "00:00",
+      "duration": "01:00",
+      "days": [
+        "WEDNESDAY"
+      ]
+    },
+    {
+      "id": "event-castle-timer-1",
+      "eventId": "event-castle",
+      "time": "00:00",
+      "duration": "01:00",
+      "days": [
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-red-dragon-s-keep-timer-1",
+      "eventId": "event-red-dragon-s-keep",
+      "time": "00:00",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-kadum-timer-1",
+      "eventId": "event-kadum",
+      "time": "00:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "MONDAY",
+        "WEDNESDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-leviathan-timer-1",
+      "eventId": "event-leviathan",
+      "time": "00:05",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-crimson-rift-timer-1",
+      "eventId": "event-crimson-rift",
+      "time": "00:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-abyssal-attack-timer-1",
+      "eventId": "event-abyssal-attack",
+      "time": "00:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "WEDNESDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-dimensional-raid-timer-1",
+      "eventId": "event-dimensional-raid",
+      "time": "00:30",
+      "duration": "00:15",
+      "days": [
+        "SUNDAY",
+        "MONDAY"
+      ]
+    },
+    {
+      "id": "event-delphinad-ghost-ships-timer-1",
+      "eventId": "event-delphinad-ghost-ships",
+      "time": "01:00",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "THURSDAY"
+      ]
+    },
+    {
+      "id": "event-delphinad-ghost-ships-timer-2",
+      "eventId": "event-delphinad-ghost-ships",
+      "time": "01:00",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-castle-timer-2",
+      "eventId": "event-castle",
+      "time": "01:00",
+      "duration": "01:00",
+      "days": [
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-guardian-scramble-timer-1",
+      "eventId": "event-guardian-scramble",
+      "time": "01:00",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "WEDNESDAY"
+      ]
+    },
+    {
+      "id": "event-anthalon-garden-timer-1",
+      "eventId": "event-anthalon-garden",
+      "time": "01:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "THURSDAY"
+      ]
+    },
+    {
+      "id": "event-garden-of-the-gods-timer-1",
+      "eventId": "event-garden-of-the-gods",
+      "time": "01:00",
+      "duration": "01:50",
+      "days": []
+    },
+    {
+      "id": "event-lusca-awakening-timer-1",
+      "eventId": "event-lusca-awakening",
+      "time": "01:00",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-wonderland-miraculous-races-timer-1",
+      "eventId": "event-wonderland-miraculous-races",
+      "time": "01:00",
+      "duration": "00:15",
+      "days": []
+    },
+    {
+      "id": "event-exile-language-tutor-timer-1",
+      "eventId": "event-exile-language-tutor",
+      "time": "01:10",
+      "duration": "00:05",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-auroria-timer-1",
+      "eventId": "event-crimson-rift-auroria",
+      "time": "01:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-aragog-timer-1",
+      "eventId": "event-aragog",
+      "time": "01:30",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-charybdis-timer-1",
+      "eventId": "event-charybdis",
+      "time": "01:30",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-akasch-invasion-timer-1",
+      "eventId": "event-akasch-invasion",
+      "time": "01:36",
+      "duration": "00:15",
+      "days": [
+        "SUNDAY",
+        "TUESDAY"
+      ]
+    },
+    {
+      "id": "event-hiram-rift-timer-1",
+      "eventId": "event-hiram-rift",
+      "time": "01:50",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-akasch-invasion-timer-2",
+      "eventId": "event-akasch-invasion",
+      "time": "01:51",
+      "duration": "00:20",
+      "days": [
+        "SUNDAY",
+        "TUESDAY"
+      ]
+    },
+    {
+      "id": "event-troubled-spirits-timer-1",
+      "eventId": "event-troubled-spirits",
+      "time": "02:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-halcyona-skirmish-timer-1",
+      "eventId": "event-halcyona-skirmish",
+      "time": "02:00",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-dimensional-raid-timer-2",
+      "eventId": "event-dimensional-raid",
+      "time": "02:30",
+      "duration": "00:15",
+      "days": [
+        "SUNDAY",
+        "MONDAY"
+      ]
+    },
+    {
+      "id": "event-evenbard-timer-1",
+      "eventId": "event-evenbard",
+      "time": "02:00",
+      "duration": "01:40",
+      "days": []
+    },
+    {
+      "id": "event-grimghast-rift-timer-1",
+      "eventId": "event-grimghast-rift",
+      "time": "02:20",
+      "duration": "01:10",
+      "days": []
+    },
+    {
+      "id": "event-halcyona-skirmish-timer-2",
+      "eventId": "event-halcyona-skirmish",
+      "time": "02:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "MONDAY"
+      ]
+    },
+    {
+      "id": "event-wonderland-boss-timer-1",
+      "eventId": "event-wonderland-boss",
+      "time": "02:30",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-sea-spirit-general-timer-1",
+      "eventId": "event-sea-spirit-general",
+      "time": "02:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "THURSDAY"
+      ]
+    },
+    {
+      "id": "event-harbinger-timer-1",
+      "eventId": "event-harbinger",
+      "time": "02:30",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-jola-meina-glenn-timer-1",
+      "eventId": "event-jola-meina-glenn",
+      "time": "03:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-noryette-arena-timer-1",
+      "eventId": "event-noryette-arena",
+      "time": "03:30",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-the-yata-lantern-timer-1",
+      "eventId": "event-the-yata-lantern",
+      "time": "04:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-daily-reset-timer-1",
+      "eventId": "event-daily-reset",
+      "time": "04:00",
+      "duration": "00:05",
+      "days": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-weekly-reset-timer-1",
+      "eventId": "event-weekly-reset",
+      "time": "04:00",
+      "duration": "00:05",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-faction-activity-reset-timer-1",
+      "eventId": "event-faction-activity-reset",
+      "time": "04:00",
+      "duration": "00:20",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-hero-nui-reset-timer-1",
+      "eventId": "event-hero-nui-reset",
+      "time": "04:00",
+      "duration": "00:05",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-the-merchants-day-timer-1",
+      "eventId": "event-the-merchants-day",
+      "time": "04:00",
+      "duration": "24:00",
+      "days": [
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-the-fishers-day-timer-1",
+      "eventId": "event-the-fishers-day",
+      "time": "04:00",
+      "duration": "24:00",
+      "days": [
+        "TUESDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-treasures-hunter-day-timer-1",
+      "eventId": "event-treasures-hunter-day",
+      "time": "04:00",
+      "duration": "24:00",
+      "days": [
+        "WEDNESDAY"
+      ]
+    },
+    {
+      "id": "event-castle-timer-3",
+      "eventId": "event-castle",
+      "time": "04:00",
+      "duration": "20:00",
+      "days": [
+        "WEDNESDAY"
+      ]
+    },
+    {
+      "id": "event-the-merchants-day-timer-2",
+      "eventId": "event-the-merchants-day",
+      "time": "04:00",
+      "duration": "24:00",
+      "days": [
+        "MONDAY"
+      ]
+    },
+    {
+      "id": "event-the-merchants-day-timer-3",
+      "eventId": "event-the-merchants-day",
+      "time": "04:00",
+      "duration": "24:00",
+      "days": [
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-ds-ocleera-rift-timer-1",
+      "eventId": "event-ds-ocleera-rift",
+      "time": "04:00",
+      "duration": "00:35",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-timer-2",
+      "eventId": "event-crimson-rift",
+      "time": "04:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-garden-of-the-gods-timer-2",
+      "eventId": "event-garden-of-the-gods",
+      "time": "05:00",
+      "duration": "01:50",
+      "days": []
+    },
+    {
+      "id": "event-diamond-shores-timer-1",
+      "eventId": "event-diamond-shores",
+      "time": "05:00",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-exile-language-tutor-timer-2",
+      "eventId": "event-exile-language-tutor",
+      "time": "05:10",
+      "duration": "00:05",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-auroria-timer-2",
+      "eventId": "event-crimson-rift-auroria",
+      "time": "05:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-hiram-rift-timer-2",
+      "eventId": "event-hiram-rift",
+      "time": "05:50",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-troubled-spirits-timer-2",
+      "eventId": "event-troubled-spirits",
+      "time": "06:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-evenbard-timer-2",
+      "eventId": "event-evenbard",
+      "time": "06:00",
+      "duration": "01:40",
+      "days": []
+    },
+    {
+      "id": "event-grimghast-rift-timer-2",
+      "eventId": "event-grimghast-rift",
+      "time": "06:20",
+      "duration": "01:10",
+      "days": []
+    },
+    {
+      "id": "event-wonderland-miraculous-races-timer-2",
+      "eventId": "event-wonderland-miraculous-races",
+      "time": "07:00",
+      "duration": "00:15",
+      "days": []
+    },
+    {
+      "id": "event-jola-meina-glenn-timer-2",
+      "eventId": "event-jola-meina-glenn",
+      "time": "07:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-timer-3",
+      "eventId": "event-crimson-rift",
+      "time": "08:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-garden-of-the-gods-timer-3",
+      "eventId": "event-garden-of-the-gods",
+      "time": "09:00",
+      "duration": "01:50",
+      "days": []
+    },
+    {
+      "id": "event-exile-language-tutor-timer-3",
+      "eventId": "event-exile-language-tutor",
+      "time": "09:10",
+      "duration": "00:05",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-auroria-timer-3",
+      "eventId": "event-crimson-rift-auroria",
+      "time": "09:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-hiram-rift-timer-3",
+      "eventId": "event-hiram-rift",
+      "time": "09:50",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-evenbard-timer-3",
+      "eventId": "event-evenbard",
+      "time": "10:00",
+      "duration": "01:40",
+      "days": []
+    },
+    {
+      "id": "event-grimghast-rift-timer-3",
+      "eventId": "event-grimghast-rift",
+      "time": "10:20",
+      "duration": "01:10",
+      "days": []
+    },
+    {
+      "id": "event-dimensional-raid-timer-3",
+      "eventId": "event-dimensional-raid",
+      "time": "10:30",
+      "duration": "00:15",
+      "days": [
+        "SUNDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-diamond-shores-timer-2",
+      "eventId": "event-diamond-shores",
+      "time": "11:00",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-server-maintenance-timer-1",
+      "eventId": "event-server-maintenance",
+      "time": "11:00",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY"
+      ]
+    },
+    {
+      "id": "event-jola-meina-glenn-timer-3",
+      "eventId": "event-jola-meina-glenn",
+      "time": "11:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-red-dragon-s-keep-timer-2",
+      "eventId": "event-red-dragon-s-keep",
+      "time": "11:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "MONDAY",
+        "WEDNESDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-kadum-timer-2",
+      "eventId": "event-kadum",
+      "time": "11:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-halcyona-skirmish-timer-3",
+      "eventId": "event-halcyona-skirmish",
+      "time": "12:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-the-fall-of-hiram-city-timer-1",
+      "eventId": "event-the-fall-of-hiram-city",
+      "time": "12:00",
+      "duration": "02:00",
+      "days": [
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-crimson-rift-timer-4",
+      "eventId": "event-crimson-rift",
+      "time": "12:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-akasch-invasion-timer-3",
+      "eventId": "event-akasch-invasion",
+      "time": "12:36",
+      "duration": "00:15",
+      "days": [
+        "MONDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-akasch-invasion-timer-4",
+      "eventId": "event-akasch-invasion",
+      "time": "12:51",
+      "duration": "00:20",
+      "days": [
+        "MONDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-garden-of-the-gods-timer-4",
+      "eventId": "event-garden-of-the-gods",
+      "time": "13:00",
+      "duration": "01:50",
+      "days": []
+    },
+    {
+      "id": "event-guardian-scramble-timer-2",
+      "eventId": "event-guardian-scramble",
+      "time": "13:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "TUESDAY"
+      ]
+    },
+    {
+      "id": "event-black-dragon-timer-2",
+      "eventId": "event-black-dragon",
+      "time": "13:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-wonderland-miraculous-races-timer-3",
+      "eventId": "event-wonderland-miraculous-races",
+      "time": "13:00",
+      "duration": "00:15",
+      "days": []
+    },
+    {
+      "id": "event-exile-language-tutor-timer-4",
+      "eventId": "event-exile-language-tutor",
+      "time": "13:10",
+      "duration": "00:05",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-auroria-timer-4",
+      "eventId": "event-crimson-rift-auroria",
+      "time": "13:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-hiram-rift-timer-4",
+      "eventId": "event-hiram-rift",
+      "time": "13:50",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-gm-hide-seek-maybe-timer-1",
+      "eventId": "event-gm-hide-seek-maybe",
+      "time": "14:00",
+      "duration": "00:30",
+      "days": [
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-evenbard-timer-4",
+      "eventId": "event-evenbard",
+      "time": "14:00",
+      "duration": "01:40",
+      "days": []
+    },
+    {
+      "id": "event-grimghast-rift-timer-4",
+      "eventId": "event-grimghast-rift",
+      "time": "14:20",
+      "duration": "01:10",
+      "days": []
+    },
+    {
+      "id": "event-kraken-timer-1",
+      "eventId": "event-kraken",
+      "time": "14:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-red-dragon-s-keep-timer-3",
+      "eventId": "event-red-dragon-s-keep",
+      "time": "15:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "MONDAY",
+        "WEDNESDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-kadum-timer-3",
+      "eventId": "event-kadum",
+      "time": "15:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-jola-meina-glenn-timer-4",
+      "eventId": "event-jola-meina-glenn",
+      "time": "15:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-aragog-timer-2",
+      "eventId": "event-aragog",
+      "time": "15:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-castle-timer-4",
+      "eventId": "event-castle",
+      "time": "16:00",
+      "duration": "08:00",
+      "days": [
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-ayanad-merchant-timer-1",
+      "eventId": "event-ayanad-merchant",
+      "time": "16:00",
+      "duration": "06:00",
+      "days": []
+    },
+    {
+      "id": "event-ds-ocleera-rift-timer-2",
+      "eventId": "event-ds-ocleera-rift",
+      "time": "16:00",
+      "duration": "00:35",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-timer-5",
+      "eventId": "event-crimson-rift",
+      "time": "16:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-halcyona-skirmish-timer-4",
+      "eventId": "event-halcyona-skirmish",
+      "time": "16:30",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-anthalon-garden-timer-2",
+      "eventId": "event-anthalon-garden",
+      "time": "17:00",
+      "duration": "01:00",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-garden-of-the-gods-timer-5",
+      "eventId": "event-garden-of-the-gods",
+      "time": "17:00",
+      "duration": "01:50",
+      "days": []
+    },
+    {
+      "id": "event-hasla-1-rift-timer-1",
+      "eventId": "event-hasla-1-rift",
+      "time": "17:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-diamond-shores-timer-3",
+      "eventId": "event-diamond-shores",
+      "time": "17:00",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-exile-language-tutor-timer-5",
+      "eventId": "event-exile-language-tutor",
+      "time": "17:10",
+      "duration": "00:05",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-auroria-timer-5",
+      "eventId": "event-crimson-rift-auroria",
+      "time": "17:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-sea-spirit-general-timer-2",
+      "eventId": "event-sea-spirit-general",
+      "time": "17:30",
+      "duration": "01:00",
+      "days": [
+        "WEDNESDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-harbinger-timer-2",
+      "eventId": "event-harbinger",
+      "time": "17:30",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-hiram-rift-timer-5",
+      "eventId": "event-hiram-rift",
+      "time": "17:50",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-troubled-spirits-timer-3",
+      "eventId": "event-troubled-spirits",
+      "time": "18:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-the-yata-lantern-timer-2",
+      "eventId": "event-the-yata-lantern",
+      "time": "18:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-gm-raging-tank-maybe-timer-1",
+      "eventId": "event-gm-raging-tank-maybe",
+      "time": "18:00",
+      "duration": "00:30",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-gm-dragon-maybe-timer-1",
+      "eventId": "event-gm-dragon-maybe",
+      "time": "18:00",
+      "duration": "00:30",
+      "days": [
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-halcyona-skirmish-timer-5",
+      "eventId": "event-halcyona-skirmish",
+      "time": "18:00",
+      "duration": "01:00",
+      "days": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY"
+      ]
+    },
+    {
+      "id": "event-evenbard-timer-5",
+      "eventId": "event-evenbard",
+      "time": "18:00",
+      "duration": "01:40",
+      "days": []
+    },
+    {
+      "id": "event-grimghast-rift-timer-5",
+      "eventId": "event-grimghast-rift",
+      "time": "18:20",
+      "duration": "01:10",
+      "days": []
+    },
+    {
+      "id": "event-wonderland-boss-timer-2",
+      "eventId": "event-wonderland-boss",
+      "time": "18:30",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-kraken-cultist-timer-1",
+      "eventId": "event-kraken-cultist",
+      "time": "18:30",
+      "duration": "00:30",
+      "days": [
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-wonderland-miraculous-races-timer-4",
+      "eventId": "event-wonderland-miraculous-races",
+      "time": "19:00",
+      "duration": "00:15",
+      "days": []
+    },
+    {
+      "id": "event-jola-meina-glenn-timer-5",
+      "eventId": "event-jola-meina-glenn",
+      "time": "19:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-dimensional-raid-timer-4",
+      "eventId": "event-dimensional-raid",
+      "time": "19:30",
+      "duration": "00:15",
+      "days": [
+        "SUNDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-abyssal-attack-timer-2",
+      "eventId": "event-abyssal-attack",
+      "time": "20:00",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-crimson-rift-timer-6",
+      "eventId": "event-crimson-rift",
+      "time": "20:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-lusca-awakening-timer-2",
+      "eventId": "event-lusca-awakening",
+      "time": "20:30",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-noryette-arena-timer-2",
+      "eventId": "event-noryette-arena",
+      "time": "20:30",
+      "duration": "03:00",
+      "days": []
+    },
+    {
+      "id": "event-akasch-invasion-timer-5",
+      "eventId": "event-akasch-invasion",
+      "time": "20:36",
+      "duration": "00:15",
+      "days": [
+        "MONDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-akasch-invasion-timer-6",
+      "eventId": "event-akasch-invasion",
+      "time": "20:51",
+      "duration": "00:20",
+      "days": [
+        "MONDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-wonderland-treasure-timer-1",
+      "eventId": "event-wonderland-treasure",
+      "time": "21:00",
+      "duration": "00:30",
+      "days": [
+        "WEDNESDAY"
+      ]
+    },
+    {
+      "id": "event-garden-of-the-gods-timer-6",
+      "eventId": "event-garden-of-the-gods",
+      "time": "21:00",
+      "duration": "01:50",
+      "days": []
+    },
+    {
+      "id": "event-black-dragon-timer-3",
+      "eventId": "event-black-dragon",
+      "time": "21:00",
+      "duration": "01:00",
+      "days": [
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-exile-language-tutor-timer-6",
+      "eventId": "event-exile-language-tutor",
+      "time": "21:10",
+      "duration": "00:05",
+      "days": []
+    },
+    {
+      "id": "event-crimson-rift-auroria-timer-6",
+      "eventId": "event-crimson-rift-auroria",
+      "time": "21:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-hiram-rift-timer-6",
+      "eventId": "event-hiram-rift",
+      "time": "21:50",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-troubled-spirits-timer-4",
+      "eventId": "event-troubled-spirits",
+      "time": "22:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-ayanad-merchant-timer-2",
+      "eventId": "event-ayanad-merchant",
+      "time": "22:00",
+      "duration": "06:00",
+      "days": []
+    },
+    {
+      "id": "event-the-fall-of-hiram-city-timer-2",
+      "eventId": "event-the-fall-of-hiram-city",
+      "time": "22:00",
+      "duration": "02:00",
+      "days": [
+        "SUNDAY"
+      ]
+    },
+    {
+      "id": "event-evenbard-timer-6",
+      "eventId": "event-evenbard",
+      "time": "22:00",
+      "duration": "01:40",
+      "days": []
+    },
+    {
+      "id": "event-grimghast-rift-timer-6",
+      "eventId": "event-grimghast-rift",
+      "time": "22:20",
+      "duration": "01:10",
+      "days": []
+    },
+    {
+      "id": "event-kraken-timer-2",
+      "eventId": "event-kraken",
+      "time": "22:30",
+      "duration": "01:00",
+      "days": [
+        "TUESDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-dimensional-raid-timer-5",
+      "eventId": "event-dimensional-raid",
+      "time": "22:30",
+      "duration": "00:15",
+      "days": [
+        "SUNDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-noryette-arena-timer-3",
+      "eventId": "event-noryette-arena",
+      "time": "22:30",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-the-yata-lantern-timer-3",
+      "eventId": "event-the-yata-lantern",
+      "time": "23:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-gm-wonderland-races-maybe-timer-1",
+      "eventId": "event-gm-wonderland-races-maybe",
+      "time": "23:00",
+      "duration": "00:30",
+      "days": [
+        "MONDAY"
+      ]
+    },
+    {
+      "id": "event-kraken-cultist-timer-2",
+      "eventId": "event-kraken-cultist",
+      "time": "23:00",
+      "duration": "00:30",
+      "days": [
+        "TUESDAY",
+        "THURSDAY",
+        "SATURDAY"
+      ]
+    },
+    {
+      "id": "event-jadegale-hasla-rift-timer-1",
+      "eventId": "event-jadegale-hasla-rift",
+      "time": "23:00",
+      "duration": "00:30",
+      "days": []
+    },
+    {
+      "id": "event-diamond-shores-timer-4",
+      "eventId": "event-diamond-shores",
+      "time": "23:00",
+      "duration": "02:00",
+      "days": []
+    },
+    {
+      "id": "event-jola-meina-glenn-timer-6",
+      "eventId": "event-jola-meina-glenn",
+      "time": "23:20",
+      "duration": "01:00",
+      "days": []
+    },
+    {
+      "id": "event-wonderland-treasure-timer-2",
+      "eventId": "event-wonderland-treasure",
+      "time": "23:30",
+      "duration": "00:30",
+      "days": [
+        "SATURDAY"
+      ]
+    }
+  ],
+  "alerts": {
+    "defaultLeadSeconds": 900,
+    "options": [
+      {
+        "id": "start",
+        "name": "Start of Event",
+        "kind": "start",
+        "leadSeconds": 0
+      },
+      {
+        "id": "pre-1",
+        "name": "1 minute before",
+        "kind": "reminder",
+        "leadSeconds": 60,
+        "cueId": "reminder"
+      },
+      {
+        "id": "pre-8",
+        "name": "7.5 minutes before",
+        "kind": "reminder",
+        "leadSeconds": 450,
+        "cueId": "reminder"
+      },
+      {
+        "id": "pre-15",
+        "name": "15 minutes before",
+        "kind": "reminder",
+        "leadSeconds": 900,
+        "cueId": "reminder"
+      },
+      {
+        "id": "pre-30",
+        "name": "30 minutes before",
+        "kind": "reminder",
+        "leadSeconds": 1800,
+        "cueId": "reminder"
+      }
+    ]
+  },
+  "cues": [
+    {
+      "id": "test",
+      "label": "Test",
+      "file": "/assets/audio/empty.mp3",
+      "priority": 0
+    },
+    {
+      "id": "reminder",
+      "label": "Reminder",
+      "file": "/assets/audio/battlefield_count.mp3",
+      "priority": 1
+    },
+    {
+      "id": "start",
+      "label": "Event start",
+      "file": "/assets/audio/quest_accept_2.mp3",
+      "priority": 2
+    },
+    {
+      "id": "start_other",
+      "label": "Other event start",
+      "file": "/assets/audio/interaction_unpack_launch.mp3",
+      "priority": 3
+    },
+    {
+      "id": "ship_leaving",
+      "label": "Cargo ship leaving",
+      "file": "/assets/audio/auction_bidding.mp3",
+      "priority": 4
+    },
+    {
+      "id": "other",
+      "label": "Other alert",
+      "file": "/assets/audio/mail_alarm.mp3",
+      "priority": 99
+    }
+  ],
+  "cargoShip": {
+    "enabled": true,
+    "defaultServerId": "1",
+    "ports": {
+      "solis-headlands": "Solis Headlands",
+      "two-crowns": "Two Crowns"
+    },
+    "route": [
+      {
+        "id": "solis-docked",
+        "text": "docked in Solis Headlands",
+        "next": "Depart Solis",
+        "port": "solis-headlands",
+        "durationSeconds": 1200
+      },
+      {
+        "id": "solis-two-crowns",
+        "text": "sailing to Two Crowns",
+        "next": "Arrive TC",
+        "toPort": "two-crowns",
+        "durationSeconds": 621.2,
+        "reverse": true,
+        "sailing": true
+      },
+      {
+        "id": "two-crowns-docked",
+        "text": "docked in Two Crowns",
+        "next": "Depart TC",
+        "port": "two-crowns",
+        "durationSeconds": 1200,
+        "reverse": true
+      },
+      {
+        "id": "two-crowns-solis",
+        "text": "sailing to Solis Headlands",
+        "next": "Arrive Solis",
+        "toPort": "solis-headlands",
+        "durationSeconds": 647.25,
+        "sailing": true
+      }
+    ],
+    "alerts": [
+      {
+        "id": "arrive-solis-3",
+        "name": "Arriving in Solis in 3 min",
+        "stepId": "two-crowns-solis",
+        "trigger": "end",
+        "offsetSeconds": -180,
+        "speech": "The cargo ship will arrive at the Solis Headlands port in 3 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "arrived-solis",
+        "name": "Arrived in Solis",
+        "stepId": "two-crowns-solis",
+        "trigger": "end",
+        "offsetSeconds": 0,
+        "speech": "The cargo ship has arrived at the Solis Headlands port.",
+        "cueId": "ship_leaving"
+      },
+      {
+        "id": "leave-solis-10",
+        "name": "Leaving Solis in 10 min",
+        "stepId": "solis-docked",
+        "trigger": "end",
+        "offsetSeconds": -600,
+        "speech": "The cargo ship will leave the Solis Headlands port in 10 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "leave-solis-5",
+        "name": "Leaving Solis in 5 min",
+        "stepId": "solis-docked",
+        "trigger": "end",
+        "offsetSeconds": -300,
+        "speech": "The cargo ship will leave the Solis Headlands port in 5 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "leave-solis-2",
+        "name": "Leaving Solis in 2 min",
+        "stepId": "solis-docked",
+        "trigger": "end",
+        "offsetSeconds": -120,
+        "speech": "The cargo ship will leave the Solis Headlands port in 2 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "leaving-solis",
+        "name": "Leaving Solis Port",
+        "stepId": "solis-docked",
+        "trigger": "end",
+        "offsetSeconds": 0,
+        "speech": "The cargo ship is leaving the Solis Headlands port.",
+        "cueId": "ship_leaving"
+      },
+      {
+        "id": "arrive-tc-3",
+        "name": "Arriving in Two Crowns in 3 min",
+        "stepId": "solis-two-crowns",
+        "trigger": "end",
+        "offsetSeconds": -180,
+        "speech": "The cargo ship will arrive at the Two Crowns port in 3 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "arrived-tc",
+        "name": "Arrived in Two Crowns",
+        "stepId": "solis-two-crowns",
+        "trigger": "end",
+        "offsetSeconds": 0,
+        "speech": "The cargo ship has arrived at the Two Crowns port.",
+        "cueId": "ship_leaving"
+      },
+      {
+        "id": "leave-tc-10",
+        "name": "Leaving Two Crowns in 10 min",
+        "stepId": "two-crowns-docked",
+        "trigger": "end",
+        "offsetSeconds": -600,
+        "speech": "The cargo ship will leave the Two Crowns port in 10 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "leave-tc-5",
+        "name": "Leaving Two Crowns in 5 min",
+        "stepId": "two-crowns-docked",
+        "trigger": "end",
+        "offsetSeconds": -300,
+        "speech": "The cargo ship will leave the Two Crowns port in 5 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "leave-tc-2",
+        "name": "Leaving Two Crowns in 2 min",
+        "stepId": "two-crowns-docked",
+        "trigger": "end",
+        "offsetSeconds": -120,
+        "speech": "The cargo ship will leave the Two Crowns port in 2 minutes.",
+        "cueId": "reminder"
+      },
+      {
+        "id": "leaving-tc",
+        "name": "Leaving Two Crowns Port",
+        "stepId": "two-crowns-docked",
+        "trigger": "end",
+        "offsetSeconds": 0,
+        "speech": "The cargo ship is leaving the Two Crowns port.",
+        "cueId": "ship_leaving"
+      }
+    ],
+    "servers": [
+      {
+        "id": "1",
+        "name": "ArcheRage_NA",
+        "region": "NA",
+        "unchained": false,
+        "timer": {
+          "port": "solis-headlands",
+          "remainingSeconds": 1,
+          "updatedAt": "2021-08-07T04:31:43.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "2",
+        "name": "Dochul",
+        "region": "NA",
+        "unchained": false,
+        "timer": {
+          "port": "solis-headlands",
+          "remainingSeconds": 1165,
+          "updatedAt": "2021-08-12T14:03:54.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "3",
+        "name": "Arkanis",
+        "region": "EU",
+        "unchained": false,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 1030,
+          "updatedAt": "2021-08-12T19:46:46.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "4",
+        "name": "Jakar",
+        "region": "EU",
+        "unchained": false,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 1030,
+          "updatedAt": "2021-08-12T19:46:45.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "5",
+        "name": "Akmit",
+        "region": "NA",
+        "unchained": true,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 300,
+          "updatedAt": "2021-08-09T09:23:14.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "6",
+        "name": "Marmas",
+        "region": "NA",
+        "unchained": true,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 300,
+          "updatedAt": "2021-08-09T09:23:14.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "7",
+        "name": "Okape",
+        "region": "EU",
+        "unchained": true,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 30,
+          "updatedAt": "2021-08-01T23:26:16.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "8",
+        "name": "Hieronimus",
+        "region": "EU",
+        "unchained": true,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 30,
+          "updatedAt": "2021-08-01T23:26:16.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "9",
+        "name": "Nui",
+        "region": "SEA",
+        "unchained": false,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 600,
+          "updatedAt": "2021-08-12T07:10:44.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "10",
+        "name": "Godfrey",
+        "region": "NA",
+        "unchained": true,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 300,
+          "updatedAt": "2021-08-09T09:23:14.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "11",
+        "name": "Carmila",
+        "region": "EU",
+        "unchained": true,
+        "timer": {
+          "port": "two-crowns",
+          "remainingSeconds": 30,
+          "updatedAt": "2021-08-01T23:26:16.000Z",
+          "noLinkedUpdate": false
+        }
+      },
+      {
+        "id": "12",
+        "name": "Gene",
+        "region": "SEA",
+        "unchained": false,
+        "timer": {
+          "port": "solis-headlands",
+          "remainingSeconds": 1095,
+          "updatedAt": "2021-06-24T07:51:54.000Z",
+          "noLinkedUpdate": false
+        }
+      }
+    ],
+    "maintenance": {
+      "NA": {
+        "day": "THURSDAY",
+        "time": "12:00"
+      },
+      "EU": {
+        "day": "THURSDAY",
+        "time": "08:00"
+      },
+      "SEA": {
+        "day": "WEDNESDAY",
+        "time": "22:00"
+      }
+    },
+    "notes": "The cargo ship is docked for 20 minutes and takes about 10 minutes to cross the sea."
+  },
+  "pronunciations": {
+    "Akasch": "Uh kawsh",
+    "Arche": "ark",
+    "Grimghast": "Grim ghast"
+  }
+}

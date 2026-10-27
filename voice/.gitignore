@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Generated audio cache — do NOT commit
+cache/
+
+# Environment config with secrets
+.env
+
+# Model weights downloaded by Coqui TTS (can be large)
+# ~/.local/share/tts/ is where Coqui stores them by default
+# Uncomment if you copy them locally:
+# tts_models/
