@@ -16,48 +16,34 @@ import { CargoShipCard } from '../components/CargoShipCard';
 import { EditEventDialog } from '../components/EditEventDialog';
 import { ScheduleToolbar } from '../components/ScheduleToolbar';
 import { SettingsDialog } from '../components/SettingsDialog';
+import { SponsorPanel } from '../components/SponsorPanel';
 import { useSchedule } from '../state/ScheduleProvider';
 import { useAudioCues } from '../features/audio/AudioProvider';
 import { calculateEventStates } from '../lib/schedule';
 import { STORAGE_KEYS } from '../lib/constants';
+import {
+  MAX_LAYOUT_COLUMNS,
+  movePanel,
+  resolvePanelLayout,
+  type PanelLayout,
+} from '../lib/layout';
 import { usePersistentState } from '../state/usePersistentState';
 import type { Category, EventWithTimers } from '../schemas/schedule';
 
 type ColumnItem =
   | { kind: 'category'; category: Category }
+  | { kind: 'sponsor' }
   | { kind: 'cargo' };
 
-const PREDEFINED_COLUMNS: Record<number, number[][]> = {
-  1: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
-  2: [
-    [0, 3, 4, 5, 7, 9],
-    [1, 2, 6, 8],
-  ],
-  3: [
-    [0, 3, 5, 8],
-    [1, 4, 6, 9],
-    [2, 7],
-  ],
-};
-
-function itemKey(item: ColumnItem): string {
-  return item.kind === 'cargo' ? 'cargo' : `category:${item.category.id}`;
+interface DropTarget {
+  column: number;
+  index: number;
 }
 
-function distributeItems(count: number, columns: number): number[][] {
-  if (columns === 1) {
-    return [Array.from({ length: count }, (_, index) => index)];
-  }
-  if (count === 10 && PREDEFINED_COLUMNS[columns]) {
-    return PREDEFINED_COLUMNS[columns];
-  }
-
-  const perColumn = Math.ceil(count / columns);
-  return Array.from({ length: columns }, (_, column) =>
-    Array.from({ length: count }, (_, index) => index).filter(
-      (index) => Math.min(columns - 1, Math.floor(index / perColumn)) === column,
-    ),
-  );
+function itemKey(item: ColumnItem): string {
+  if (item.kind === 'cargo') return 'cargo';
+  if (item.kind === 'sponsor') return 'sponsor';
+  return `category:${item.category.id}`;
 }
 
 function useElementWidth<T extends HTMLElement>() {
@@ -93,9 +79,12 @@ function normalizeCollapsedCategories(value: unknown): Record<string, boolean> {
   );
 }
 
-function normalizePanelOrder(value: unknown): string[] {
-  if (!Array.isArray(value)) return [];
-  return [...new Set(value.filter((item): item is string => typeof item === 'string'))];
+function clearLegacyPanelOrder() {
+  try {
+    window.localStorage.removeItem(STORAGE_KEYS.panelOrder);
+  } catch {
+    // Storage can be unavailable in private browsing or when the quota is full.
+  }
 }
 
 export function SchedulePage() {
@@ -104,6 +93,7 @@ export function SchedulePage() {
     events,
     now,
     preferences,
+    setPreferences,
     warning,
     dismissWarning,
     alertSelections,
@@ -114,15 +104,15 @@ export function SchedulePage() {
   const [collapsedCategories, setCollapsedCategories] = usePersistentState<
     Record<string, boolean>
   >(STORAGE_KEYS.collapsedCategories, {}, normalizeCollapsedCategories);
-  const [panelOrder, setPanelOrder] = usePersistentState<string[]>(
-    STORAGE_KEYS.panelOrder,
-    [],
-    normalizePanelOrder,
-  );
   const [draggedKey, setDraggedKey] = useState<string | null>(null);
-  const [dragOverKey, setDragOverKey] = useState<string | null>(null);
+  const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
   const { ref, width } = useElementWidth<HTMLDivElement>();
-  const columns = Math.max(1, Math.min(3, Math.floor(width / 380)));
+  const autoColumns = Math.max(1, Math.min(3, Math.floor(width / 380)));
+  const columns =
+    preferences.layoutColumns === 0
+      ? autoColumns
+      : Math.max(1, Math.min(MAX_LAYOUT_COLUMNS, preferences.layoutColumns));
+  const wideLayout = columns > 3;
 
   const states = useMemo(() => {
     if (!data) return [];
@@ -150,21 +140,21 @@ export function SchedulePage() {
       kind: 'category',
       category,
     }));
+    baseItems.push({ kind: 'sponsor' });
     if (data.cargoShip.enabled) baseItems.push({ kind: 'cargo' });
+    return baseItems;
+  }, [data]);
 
-    const remaining = new Map(baseItems.map((item) => [itemKey(item), item]));
-    const ordered: ColumnItem[] = [];
-    panelOrder.forEach((key) => {
-      const item = remaining.get(key);
-      if (!item) return;
-      ordered.push(item);
-      remaining.delete(key);
-    });
-    remaining.forEach((item) => ordered.push(item));
-    return ordered;
-  }, [data, panelOrder]);
-
-  const assignments = distributeItems(items.length, columns);
+  const itemKeys = useMemo(() => items.map(itemKey), [items]);
+  const itemsByKey = useMemo(
+    () => new Map(items.map((item) => [itemKey(item), item])),
+    [items],
+  );
+  const layout = useMemo(
+    () =>
+      resolvePanelLayout(preferences.panelLayout, itemKeys, columns),
+    [columns, itemKeys, preferences.panelLayout],
+  );
   const hasAlerts = Object.values(alertSelections).some((list) => list.length > 0);
 
   useEffect(() => {
@@ -181,6 +171,22 @@ export function SchedulePage() {
     [setCollapsedCategories],
   );
 
+  const commitLayout = useCallback(
+    (next: PanelLayout) => {
+      setPreferences((current) => ({ ...current, panelLayout: next }));
+      clearLegacyPanelOrder();
+    },
+    [setPreferences],
+  );
+
+  const updateDropTarget = useCallback((column: number, index: number) => {
+    setDropTarget((current) =>
+      current?.column === column && current.index === index
+        ? current
+        : { column, index },
+    );
+  }, []);
+
   const handleDragStart = (
     event: DragEvent<HTMLDivElement>,
     key: string,
@@ -188,48 +194,74 @@ export function SchedulePage() {
     const target = event.target as HTMLElement;
     if (!target.closest('.drag-handle')) return;
     setDraggedKey(key);
-    setDragOverKey(null);
+    setDropTarget(null);
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/plain', key);
     event.dataTransfer.setDragImage(event.currentTarget, 24, 24);
   };
 
-  const handleDragOver = (
+  const handlePanelDragOver = (
     event: DragEvent<HTMLDivElement>,
-    key: string,
+    columnIndex: number,
+    itemIndex: number,
   ) => {
-    if (!draggedKey || draggedKey === key) return;
+    if (!draggedKey) return;
     event.preventDefault();
+    event.stopPropagation();
     event.dataTransfer.dropEffect = 'move';
-    if (dragOverKey !== key) setDragOverKey(key);
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const after = event.clientY > rect.top + rect.height / 2;
+    updateDropTarget(columnIndex, itemIndex + (after ? 1 : 0));
   };
 
-  const handleDragLeave = (
+  const handleColumnDragOver = (
     event: DragEvent<HTMLDivElement>,
-    key: string,
+    columnIndex: number,
   ) => {
-    if (
-      dragOverKey === key &&
-      !event.currentTarget.contains(event.relatedTarget as Node | null)
-    ) {
-      setDragOverKey(null);
-    }
+    if (!draggedKey) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = 'move';
+    updateDropTarget(columnIndex, layout[columnIndex]?.length ?? 0);
   };
 
-  const handleDrop = (event: DragEvent<HTMLDivElement>, key: string) => {
+  const finishDrop = (
+    event: DragEvent<HTMLDivElement>,
+    columnIndex: number,
+    index: number,
+  ) => {
     event.preventDefault();
+    event.stopPropagation();
     const fromKey = event.dataTransfer.getData('text/plain') || draggedKey;
     setDraggedKey(null);
-    setDragOverKey(null);
-    if (!fromKey || fromKey === key) return;
+    setDropTarget(null);
+    if (!fromKey) return;
+    commitLayout(movePanel(layout, fromKey, columnIndex, index));
+  };
 
-    const keys = items.map(itemKey);
-    const fromIndex = keys.indexOf(fromKey);
-    const toIndex = keys.indexOf(key);
-    if (fromIndex < 0 || toIndex < 0) return;
+  const handlePanelDrop = (
+    event: DragEvent<HTMLDivElement>,
+    columnIndex: number,
+    itemIndex: number,
+  ) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const after = event.clientY > rect.top + rect.height / 2;
+    finishDrop(event, columnIndex, itemIndex + (after ? 1 : 0));
+  };
 
-    [keys[fromIndex], keys[toIndex]] = [keys[toIndex], keys[fromIndex]];
-    setPanelOrder(keys);
+  const handleColumnDrop = (
+    event: DragEvent<HTMLDivElement>,
+    columnIndex: number,
+  ) => {
+    finishDrop(event, columnIndex, layout[columnIndex]?.length ?? 0);
+  };
+
+  const handleContainerDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    const related = event.relatedTarget as Node | null;
+    if (!related || !event.currentTarget.contains(related)) {
+      setDropTarget(null);
+    }
   };
 
   if (!data) return null;
@@ -243,7 +275,9 @@ export function SchedulePage() {
 
   return (
     <Box
-      className={`app-page${preferences.darkMode ? ' dark' : ''}`}
+      className={`app-page${preferences.darkMode ? ' dark' : ''}${
+        wideLayout ? ' wide-layout' : ''
+      }`}
       sx={{
         backgroundImage: data.theme.backgroundImage
           ? `linear-gradient(rgba(18, 22, 24, 0.05), rgba(18, 22, 24, 0.22)), url(${data.theme.backgroundImage})`
@@ -278,48 +312,92 @@ export function SchedulePage() {
           )}
         </Stack>
 
-        <Box className="schedule-categories">
-          {assignments.map((column, columnIndex) => (
-            <Box className="schedule-column" key={`column-${columnIndex}`}>
-              {column.map((itemIndex) => {
-                const item = items[itemIndex];
-                if (!item) return null;
-                const key = itemKey(item);
-                return (
-                  <Box
-                    key={key}
-                    className={[
-                      'movable-panel',
-                      draggedKey === key ? 'dragging' : '',
-                      dragOverKey === key && draggedKey !== key ? 'drag-over' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                    onDragStart={(event) => handleDragStart(event, key)}
-                    onDragEnd={() => {
-                      setDraggedKey(null);
-                      setDragOverKey(null);
-                    }}
-                    onDragOver={(event) => handleDragOver(event, key)}
-                    onDragLeave={(event) => handleDragLeave(event, key)}
-                    onDrop={(event) => handleDrop(event, key)}
-                  >
-                    {item.kind === 'cargo' ? (
-                      <CargoShipCard />
-                    ) : (
-                      <CategoryPanel
-                        category={item.category}
-                        states={statesByCategory.get(item.category.id) ?? []}
-                        collapsed={Boolean(collapsedCategories[item.category.id])}
-                        onToggle={() => toggleCategory(item.category.id)}
-                        onEdit={openEdit}
-                      />
-                    )}
-                  </Box>
-                );
-              })}
-            </Box>
-          ))}
+        <Box
+          className="schedule-categories"
+          onDragLeave={handleContainerDragLeave}
+        >
+          {layout.map((column, columnIndex) => {
+            const isColumnDropTarget =
+              dropTarget?.column === columnIndex &&
+              dropTarget?.index === column.length;
+
+            return (
+              <Box className="schedule-column" key={`column-${columnIndex}`}>
+                {column.map((key, itemIndex) => {
+                  const item = itemsByKey.get(key);
+                  if (!item) return null;
+
+                  const isDropBefore =
+                    dropTarget?.column === columnIndex &&
+                    dropTarget?.index === itemIndex;
+                  const isDropAfter =
+                    dropTarget?.column === columnIndex &&
+                    dropTarget?.index === itemIndex + 1 &&
+                    itemIndex === column.length - 1;
+
+                  return (
+                    <Box
+                      key={key}
+                      className={[
+                        'movable-panel',
+                        draggedKey === key ? 'dragging' : '',
+                        isDropBefore ? 'drop-before' : '',
+                        isDropAfter ? 'drop-after' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      onDragStart={(event) => handleDragStart(event, key)}
+                      onDragEnd={() => {
+                        setDraggedKey(null);
+                        setDropTarget(null);
+                      }}
+                      onDragOver={(event) =>
+                        handlePanelDragOver(event, columnIndex, itemIndex)
+                      }
+                      onDrop={(event) =>
+                        handlePanelDrop(event, columnIndex, itemIndex)
+                      }
+                    >
+                      {item.kind === 'cargo' ? (
+                        <CargoShipCard />
+                      ) : item.kind === 'sponsor' ? (
+                        <SponsorPanel
+                          collapsed={Boolean(collapsedCategories.sponsor)}
+                          onToggle={() => toggleCategory('sponsor')}
+                        />
+                      ) : (
+                        <CategoryPanel
+                          category={item.category}
+                          states={statesByCategory.get(item.category.id) ?? []}
+                          collapsed={Boolean(collapsedCategories[item.category.id])}
+                          onToggle={() => toggleCategory(item.category.id)}
+                          onEdit={openEdit}
+                        />
+                      )}
+                    </Box>
+                  );
+                })}
+                <Box
+                  className={[
+                    'column-drop-zone',
+                    column.length === 0 ? 'empty' : '',
+                    draggedKey ? 'active' : '',
+                    isColumnDropTarget ? 'drop-target' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  onDragOver={(event) =>
+                    handleColumnDragOver(event, columnIndex)
+                  }
+                  onDrop={(event) => handleColumnDrop(event, columnIndex)}
+                >
+                  {column.length === 0 && draggedKey
+                    ? 'Drop panel here'
+                    : null}
+                </Box>
+              </Box>
+            );
+          })}
         </Box>
 
         <Box className="page-footnote">

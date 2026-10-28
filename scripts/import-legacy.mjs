@@ -128,6 +128,15 @@ async function readJson(file) {
   return JSON.parse(await readFile(file, 'utf8'));
 }
 
+async function readOptionalJson(file) {
+  try {
+    return await readJson(file);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
 function createCargoAlerts() {
   return [
     {
@@ -243,13 +252,19 @@ function createCargoAlerts() {
 }
 
 async function main() {
-  const [types, legacyServers, legacyCargoTimers, legacyEvents] =
-    await Promise.all([
-      readJson(path.join(legacyDir, 'static', 'service', 'types.json')),
-      readJson(path.join(legacyDir, 'static', 'service', 'servers.json')),
-      readJson(path.join(legacyDir, 'static', 'service', 'cargo-ship.json')),
-      readJson(path.join(legacyDir, 'static', 'service', 'events.json')),
-    ]);
+  const [
+    types,
+    legacyServers,
+    legacyCargoTimers,
+    legacyEvents,
+    existingSchedule,
+  ] = await Promise.all([
+    readJson(path.join(legacyDir, 'static', 'service', 'types.json')),
+    readJson(path.join(legacyDir, 'static', 'service', 'servers.json')),
+    readJson(path.join(legacyDir, 'static', 'service', 'cargo-ship.json')),
+    readJson(path.join(legacyDir, 'static', 'service', 'events.json')),
+    readOptionalJson(path.join(root, 'public', 'data', 'schedule.json')),
+  ]);
 
   const categoryIdByLegacyType = new Map(
     types.map((type) => [type.id, slugify(type.name)]),
@@ -557,6 +572,12 @@ async function main() {
       priority: cuePriorities[id],
     })),
     cargoShip,
+    sponsors: existingSchedule?.sponsors ?? {
+      title: 'Sponsor',
+      icon: 'torch',
+      color: '#6a1b9a',
+      streams: [],
+    },
     pronunciations: {
       Akasch: 'Uh kawsh',
       Arche: 'ark',

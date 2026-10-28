@@ -655,6 +655,77 @@
       ],
       "additionalProperties": false
     },
+    "sponsors": {
+      "default": {
+        "title": "Sponsor",
+        "icon": "torch",
+        "color": "#6a1b9a",
+        "streams": []
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "default": "Sponsor",
+          "type": "string",
+          "minLength": 1
+        },
+        "icon": {
+          "default": "torch",
+          "type": "string",
+          "minLength": 1
+        },
+        "color": {
+          "default": "#6a1b9a",
+          "type": "string",
+          "minLength": 1
+        },
+        "streams": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provider": {
+                "type": "string",
+                "enum": [
+                  "youtube",
+                  "twitch"
+                ]
+              },
+              "channel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "videoId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "provider",
+              "channel"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "title",
+        "icon",
+        "color",
+        "streams"
+      ],
+      "additionalProperties": false
+    },
     "pronunciations": {
       "default": {},
       "type": "object",
@@ -677,6 +748,7 @@
     "alerts",
     "cues",
     "cargoShip",
+    "sponsors",
     "pronunciations"
   ],
   "additionalProperties": false

@@ -28,7 +28,8 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useSchedule } from '../state/ScheduleProvider';
 import { useSpeech } from '../features/speech/SpeechProvider';
 import { useAudioCues } from '../features/audio/AudioProvider';
-import { REGIONS } from '../lib/constants';
+import { REGIONS, STORAGE_KEYS } from '../lib/constants';
+import { MAX_LAYOUT_COLUMNS } from '../lib/layout';
 import { xttsAvailable, xttsCheckHealth } from '../services/xttsService';
 
 interface SettingsDialogProps {
@@ -152,6 +153,50 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
               }
               label="Dark mode"
             />
+            <FormControl fullWidth margin="dense">
+              <InputLabel id="settings-columns">Columns</InputLabel>
+              <Select
+                labelId="settings-columns"
+                label="Columns"
+                value={preferences.layoutColumns}
+                onChange={(event) =>
+                  setPreferences((current) => ({
+                    ...current,
+                    layoutColumns: Number(event.target.value),
+                  }))
+                }
+              >
+                <MenuItem value={0}>Auto</MenuItem>
+                {Array.from(
+                  { length: MAX_LAYOUT_COLUMNS },
+                  (_, index) => index + 1,
+                ).map((columns) => (
+                  <MenuItem key={columns} value={columns}>
+                    {columns}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography variant="caption" color="text.secondary" component="p">
+              Layouts with more than three columns use the full page width and
+              may scroll horizontally on smaller screens.
+            </Typography>
+            <Button
+              size="small"
+              onClick={() => {
+                setPreferences((current) => ({
+                  ...current,
+                  panelLayout: [],
+                }));
+                try {
+                  window.localStorage.removeItem(STORAGE_KEYS.panelOrder);
+                } catch {
+                  // Storage can be unavailable in private browsing.
+                }
+              }}
+            >
+              Reset panel layout
+            </Button>
           </Box>
 
           <Divider />

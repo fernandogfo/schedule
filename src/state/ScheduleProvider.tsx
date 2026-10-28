@@ -20,6 +20,11 @@ import type {
 } from '../schemas/schedule';
 import { DEFAULT_SETTINGS, REGIONS, STORAGE_KEYS, type Region } from '../lib/constants';
 import {
+  normalizeLayoutColumns,
+  normalizePanelLayout,
+  type PanelLayout,
+} from '../lib/layout';
+import {
   applyCargoTimer,
   emptyOverrides,
   mergeCargo,
@@ -43,6 +48,8 @@ export interface Preferences {
   darkMode: boolean;
   volume: number;
   cargoServerId: string;
+  layoutColumns: number;
+  panelLayout: PanelLayout;
   tts: TtsPreferences;
 }
 
@@ -51,6 +58,8 @@ export type SpeakSelections = Record<string, boolean>;
 
 const defaultPreferences = (): Preferences => ({
   ...DEFAULT_SETTINGS,
+  layoutColumns: 4,
+  panelLayout: [],
   tts: { ...DEFAULT_SETTINGS.tts },
 });
 
@@ -83,6 +92,11 @@ function normalizePreferences(value: unknown): Preferences {
       typeof candidate.cargoServerId === 'string'
         ? candidate.cargoServerId
         : fallback.cargoServerId,
+    layoutColumns:
+      candidate.layoutColumns === undefined
+        ? fallback.layoutColumns
+        : normalizeLayoutColumns(candidate.layoutColumns),
+    panelLayout: normalizeStoredPanelLayout(candidate.panelLayout),
     tts: {
       voiceURI: typeof tts.voiceURI === 'string' ? tts.voiceURI : fallback.tts.voiceURI,
       rate:
@@ -99,6 +113,30 @@ function normalizePreferences(value: unknown): Preferences {
           : fallback.tts.volume,
     },
   };
+}
+
+function readLegacyPanelOrder(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEYS.panelOrder);
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? [
+          ...new Set(
+            parsed.filter((key): key is string => typeof key === 'string'),
+          ),
+        ]
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function normalizeStoredPanelLayout(value: unknown): PanelLayout {
+  if (Array.isArray(value)) return normalizePanelLayout(value);
+  const legacy = readLegacyPanelOrder();
+  return legacy.length > 0 ? [legacy] : [];
 }
 
 function normalizeStringArrayMap(value: unknown): Record<string, string[]> {
@@ -389,6 +427,11 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     resetPreferencesState();
     resetAlertSelections();
     resetSpeakSelections();
+    try {
+      window.localStorage.removeItem(STORAGE_KEYS.panelOrder);
+    } catch {
+      // Storage can be unavailable in private browsing or when the quota is full.
+    }
   }, [resetAlertSelections, resetPreferencesState, resetSpeakSelections]);
 
   const value = useMemo<ScheduleContextValue>(

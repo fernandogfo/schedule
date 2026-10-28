@@ -37,6 +37,13 @@ a {
     background-color: #151719;
     background-blend-mode: multiply;
   }
+
+  &.wide-layout {
+    .schedule-toolbar,
+    .page-content {
+      max-width: none;
+    }
+  }
 }
 
 .schedule-appbar {
@@ -163,12 +170,14 @@ a {
   display: flex;
   align-items: flex-start;
   gap: 18px;
+  padding: 10px 0 8px;
+  overflow-x: auto;
 }
 
 .schedule-column {
   display: flex;
   flex: 1 1 0;
-  min-width: 0;
+  min-width: 280px;
   flex-direction: column;
 }
 
@@ -179,10 +188,62 @@ a {
     opacity: 0.45;
   }
 
-  &.drag-over {
-    border-radius: 4px;
-    outline: 2px dashed rgba(0, 150, 136, 0.72);
-    outline-offset: 2px;
+  &.drop-before::before,
+  &.drop-after::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    height: 3px;
+    border-radius: 2px;
+    background: #009688;
+    box-shadow: 0 0 0 2px rgba(0, 150, 136, 0.18);
+    pointer-events: none;
+  }
+
+  &.drop-before::before {
+    top: -8px;
+  }
+
+  &.drop-after::after {
+    bottom: -12px;
+  }
+}
+
+.column-drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12px;
+  margin: -8px 0 12px;
+  border: 1px dashed transparent;
+  border-radius: 4px;
+  color: transparent;
+  font-size: 0.75rem;
+  transition:
+    min-height 120ms ease,
+    background-color 120ms ease,
+    border-color 120ms ease;
+
+  &.empty {
+    min-height: 40px;
+    border-color: rgba(128, 128, 128, 0.18);
+  }
+
+  &.active {
+    min-height: 36px;
+    border-color: rgba(0, 150, 136, 0.35);
+  }
+
+  &.empty.active {
+    min-height: 88px;
+  }
+
+  &.drop-target {
+    border-color: rgba(0, 150, 136, 0.9);
+    background: rgba(0, 150, 136, 0.08);
+    color: var(--mui-palette-text-secondary, #666);
   }
 }
 
@@ -565,6 +626,48 @@ a {
   strong {
     font-variant-numeric: tabular-nums;
   }
+}
+
+/* Sponsor */
+.sponsor-body {
+  padding: 12px 14px 14px;
+
+  > .empty-category {
+    padding: 0;
+  }
+}
+
+.sponsor-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #000;
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.sponsor-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.sponsor-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600 !important;
 }
 
 /* Alert menu */

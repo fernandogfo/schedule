@@ -172,6 +172,21 @@ export const cargoShipSchema = z.object({
   notes: optionalString,
 });
 
+export const sponsorStreamSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  provider: z.enum(['youtube', 'twitch']),
+  channel: z.string().min(1),
+  videoId: optionalString,
+});
+
+export const sponsorsSchema = z.object({
+  title: z.string().min(1).default('Sponsor'),
+  icon: z.string().min(1).default('torch'),
+  color: z.string().min(1).default('#6a1b9a'),
+  streams: z.array(sponsorStreamSchema).default([]),
+});
+
 export const settingsSchema = z.object({
   defaultRegion: regionSchema.default('NA'),
   defaultVolume: z.number().min(0).max(100).default(70),
@@ -244,6 +259,12 @@ export const scheduleDataSchema = z
       alerts: [],
       servers: [],
       maintenance: {},
+    }),
+    sponsors: sponsorsSchema.default({
+      title: 'Sponsor',
+      icon: 'torch',
+      color: '#6a1b9a',
+      streams: [],
     }),
     pronunciations: z.record(z.string(), z.string()).default({}),
   })
@@ -322,6 +343,8 @@ export type CargoStep = z.infer<typeof cargoStepSchema>;
 export type CargoServer = z.infer<typeof cargoServerSchema>;
 export type CargoTimer = z.infer<typeof cargoTimerSchema>;
 export type CargoAlert = z.infer<typeof cargoAlertSchema>;
+export type SponsorStream = z.infer<typeof sponsorStreamSchema>;
+export type Sponsors = z.infer<typeof sponsorsSchema>;
 export type ScheduleTheme = z.infer<typeof themeSchema>;
 export type ScheduleSettings = z.infer<typeof settingsSchema>;
 export type EventWithTimers = ScheduleEvent & { timers: ScheduleTimer[] };

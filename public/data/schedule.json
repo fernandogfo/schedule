@@ -2133,6 +2133,25 @@
     },
     "notes": "The cargo ship is docked for 20 minutes and takes about 10 minutes to cross the sea."
   },
+  "sponsors": {
+    "title": "Sponsor",
+    "icon": "torch",
+    "color": "#6a1b9a",
+    "streams": [
+      {
+        "id": "twitch-1",
+        "name": "Dyani",
+        "provider": "twitch",
+        "channel": "drlunatic"
+      },
+      {
+        "id": "youtube-1",
+        "name": "Dyani",
+        "provider": "youtube",
+        "channel": "ferdferna"
+      }
+    ]
+  },
   "pronunciations": {
     "Akasch": "Uh kawsh",
     "Arche": "ark",
