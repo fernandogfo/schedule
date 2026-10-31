@@ -11,15 +11,22 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import StarIcon from '@mui/icons-material/Star';
 import { CategoryPanel } from '../components/CategoryPanel';
 import { CargoShipCard } from '../components/CargoShipCard';
 import { EditEventDialog } from '../components/EditEventDialog';
+import { EventListPanel } from '../components/EventListPanel';
 import { ScheduleToolbar } from '../components/ScheduleToolbar';
 import { SettingsDialog } from '../components/SettingsDialog';
 import { SponsorPanel } from '../components/SponsorPanel';
 import { useSchedule } from '../state/ScheduleProvider';
 import { useAudioCues } from '../features/audio/AudioProvider';
-import { calculateEventStates } from '../lib/schedule';
+import {
+  calculateEventStates,
+  filterActiveStates,
+  filterFavoriteStates,
+} from '../lib/schedule';
 import { STORAGE_KEYS } from '../lib/constants';
 import {
   MAX_LAYOUT_COLUMNS,
@@ -32,6 +39,8 @@ import type { Category, EventWithTimers } from '../schemas/schedule';
 
 type ColumnItem =
   | { kind: 'category'; category: Category }
+  | { kind: 'favorites' }
+  | { kind: 'active' }
   | { kind: 'sponsor' }
   | { kind: 'cargo' };
 
@@ -43,6 +52,8 @@ interface DropTarget {
 function itemKey(item: ColumnItem): string {
   if (item.kind === 'cargo') return 'cargo';
   if (item.kind === 'sponsor') return 'sponsor';
+  if (item.kind === 'favorites') return 'favorites';
+  if (item.kind === 'active') return 'active';
   return `category:${item.category.id}`;
 }
 
@@ -97,6 +108,7 @@ export function SchedulePage() {
     warning,
     dismissWarning,
     alertSelections,
+    favorites,
   } = useSchedule();
   const { unlocked, testAudio } = useAudioCues();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -134,12 +146,21 @@ export function SchedulePage() {
     return map;
   }, [states]);
 
+  const favoriteIds = useMemo(() => new Set(favorites), [favorites]);
+  const favoriteStates = useMemo(
+    () => filterFavoriteStates(states, favoriteIds),
+    [favoriteIds, states],
+  );
+  const activeStates = useMemo(() => filterActiveStates(states), [states]);
+
   const items = useMemo<ColumnItem[]>(() => {
     if (!data) return [];
     const baseItems: ColumnItem[] = data.categories.map((category) => ({
       kind: 'category',
       category,
     }));
+    baseItems.push({ kind: 'favorites' });
+    baseItems.push({ kind: 'active' });
     baseItems.push({ kind: 'sponsor' });
     if (data.cargoShip.enabled) baseItems.push({ kind: 'cargo' });
     return baseItems;
@@ -358,7 +379,31 @@ export function SchedulePage() {
                         handlePanelDrop(event, columnIndex, itemIndex)
                       }
                     >
-                      {item.kind === 'cargo' ? (
+                      {item.kind === 'favorites' ? (
+                        <EventListPanel
+                          panelId="favorites"
+                          title="Favorites"
+                          icon={<StarIcon fontSize="small" />}
+                          color="#b8860b"
+                          states={favoriteStates}
+                          collapsed={Boolean(collapsedCategories.favorites)}
+                          onToggle={() => toggleCategory('favorites')}
+                          onEdit={openEdit}
+                          emptyMessage="No favorite events yet. Tap the star on any event."
+                        />
+                      ) : item.kind === 'active' ? (
+                        <EventListPanel
+                          panelId="active"
+                          title="Happening now"
+                          icon={<PlayCircleIcon fontSize="small" />}
+                          color="#c62828"
+                          states={activeStates}
+                          collapsed={Boolean(collapsedCategories.active)}
+                          onToggle={() => toggleCategory('active')}
+                          onEdit={openEdit}
+                          emptyMessage="No events happening right now."
+                        />
+                      ) : item.kind === 'cargo' ? (
                         <CargoShipCard />
                       ) : item.kind === 'sponsor' ? (
                         <SponsorPanel

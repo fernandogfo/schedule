@@ -49,6 +49,8 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
     resetPreferences,
     resetOverrides,
     overrides,
+    favorites,
+    clearFavorites,
     reload,
     source,
     warning,
@@ -196,6 +198,18 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
               }}
             >
               Reset panel layout
+            </Button>
+            <Button
+              size="small"
+              color="warning"
+              disabled={favorites.length === 0}
+              onClick={() => {
+                if (window.confirm('Clear all favorite events?')) {
+                  clearFavorites();
+                }
+              }}
+            >
+              Clear favorites ({favorites.length})
             </Button>
           </Box>
 

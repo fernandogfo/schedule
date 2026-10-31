@@ -292,6 +292,15 @@ a {
   flex: 0 0 auto;
 }
 
+.special-panel-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 24px;
+  flex: 0 0 auto;
+}
+
 .category-count {
   display: inline-flex;
   align-items: center;

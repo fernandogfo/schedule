@@ -57,6 +57,7 @@ export const STORAGE_KEYS = {
   speak: 'archeage-schedule.speak.v1',
   collapsedCategories: 'archeage-schedule.collapsed-categories.v1',
   panelOrder: 'archeage-schedule.panel-order.v1',
+  favorites: 'archeage-schedule.favorites.v1',
 } as const;
 
 export const FALLBACK_DATA_URL = '/data/schedule.json';

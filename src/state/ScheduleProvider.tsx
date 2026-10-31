@@ -159,6 +159,15 @@ function normalizeBooleanMap(value: unknown): Record<string, boolean> {
   ) as Record<string, boolean>;
 }
 
+function normalizeFavoriteIds(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return [
+    ...new Set(
+      value.filter((id): id is string => typeof id === 'string' && id.length > 0),
+    ),
+  ];
+}
+
 function useNow(interval = 1000): Dayjs {
   const [now, setNow] = useState<Dayjs>(() => dayjs());
 
@@ -203,6 +212,10 @@ export interface ScheduleContextValue {
   saveCargoTimer: (serverId: string, timer: CargoTimer) => void;
   alertSelections: AlertSelections;
   speakSelections: SpeakSelections;
+  favorites: string[];
+  isFavorite: (eventId: string) => boolean;
+  toggleFavorite: (eventId: string) => void;
+  clearFavorites: () => void;
   toggleAlert: (key: string, optionId: string) => void;
   clearAlerts: (key: string) => void;
   setSpeaking: (key: string, enabled: boolean) => void;
@@ -248,6 +261,12 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       {},
       normalizeBooleanMap,
     );
+  const [favorites, setFavorites, resetFavorites] = usePersistentState<string[]>(
+    STORAGE_KEYS.favorites,
+    [],
+    normalizeFavoriteIds,
+  );
+  const favoriteIds = useMemo(() => new Set(favorites), [favorites]);
   const requestId = useRef(0);
   const hasData = useRef(false);
   const now = useNow();
@@ -423,6 +442,26 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     [setSpeakSelections],
   );
 
+  const isFavorite = useCallback(
+    (eventId: string) => favoriteIds.has(eventId),
+    [favoriteIds],
+  );
+
+  const toggleFavorite = useCallback(
+    (eventId: string) => {
+      setFavorites((current) =>
+        current.includes(eventId)
+          ? current.filter((id) => id !== eventId)
+          : [...current, eventId],
+      );
+    },
+    [setFavorites],
+  );
+
+  const clearFavorites = useCallback(() => {
+    resetFavorites();
+  }, [resetFavorites]);
+
   const resetPreferences = useCallback(() => {
     resetPreferencesState();
     resetAlertSelections();
@@ -459,6 +498,10 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       saveCargoTimer,
       alertSelections,
       speakSelections,
+      favorites,
+      isFavorite,
+      toggleFavorite,
+      clearFavorites,
       toggleAlert,
       clearAlerts,
       setSpeaking,
@@ -467,7 +510,10 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       alertSelections,
       cargo,
       clearAlerts,
+      clearFavorites,
       data,
+      favorites,
+      isFavorite,
       deleteEvent,
       error,
       events,
@@ -487,6 +533,7 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       source,
       speakSelections,
       toggleAlert,
+      toggleFavorite,
       warning,
     ],
   );

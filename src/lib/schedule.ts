@@ -91,6 +91,17 @@ export function calculateEventStates(
     });
 }
 
+export function filterFavoriteStates(
+  states: EventState[],
+  favoriteIds: ReadonlySet<string>,
+): EventState[] {
+  return states.filter((state) => favoriteIds.has(state.event.id));
+}
+
+export function filterActiveStates(states: EventState[]): EventState[] {
+  return states.filter((state) => state.running);
+}
+
 export function mergeEventsWithTimers(
   events: ScheduleEvent[],
   timers: ScheduleTimer[],

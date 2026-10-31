@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { AlertMenu } from './AlertMenu';
 import { useSchedule } from '../state/ScheduleProvider';
 import {
@@ -35,9 +37,10 @@ interface EventCardProps {
 }
 
 export function EventCard({ state, onEdit }: EventCardProps) {
-  const { data, now, preferences } = useSchedule();
+  const { data, now, preferences, isFavorite, toggleFavorite } = useSchedule();
   const [expanded, setExpanded] = useState(false);
   const { event, active, next, running, target } = state;
+  const favorite = isFavorite(event.id);
   const currentTimer = active?.timer ?? next?.timer;
   const gameTime = (active?.timer.inGameTime ?? next?.timer.inGameTime)?.slice(0, 5);
   const title = `${event.name}${currentTimer?.label ? `: ${currentTimer.label}` : ''}`;
@@ -132,6 +135,25 @@ export function EventCard({ state, onEdit }: EventCardProps) {
                 </IconButton>
               </Tooltip>
             )}
+            <Tooltip
+              title={favorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              <IconButton
+                size="small"
+                onClick={() => toggleFavorite(event.id)}
+                aria-label={
+                  favorite ? 'Remove from favorites' : 'Add to favorites'
+                }
+                aria-pressed={favorite}
+                color={favorite ? 'warning' : 'default'}
+              >
+                {favorite ? (
+                  <StarIcon fontSize="small" />
+                ) : (
+                  <StarBorderIcon fontSize="small" />
+                )}
+              </IconButton>
+            </Tooltip>
             <AlertMenu
               alertKey={event.id}
               options={alertOptions}
