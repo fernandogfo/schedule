@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 import AddIcon from '@mui/icons-material/Add';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -124,13 +125,12 @@ export function ScheduleToolbar({
               }
               aria-label="Toggle daylight saving time"
               aria-pressed={preferences.daylightSaving}
-              sx={
-                preferences.daylightSaving
-                  ? { color: '#ffd54f' }
-                  : undefined
-              }
             >
-              <WbSunnyIcon />
+              {preferences.daylightSaving ? (
+                <AcUnitIcon />
+              ) : (
+                <WbSunnyIcon sx={{ color: '#ffd54f' }} />
+              )}
             </IconButton>
           </Tooltip>
 
