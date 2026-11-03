@@ -46,6 +46,7 @@ export interface Preferences {
   region: Region;
   showDisabled: boolean;
   darkMode: boolean;
+  daylightSaving: boolean;
   volume: number;
   cargoServerId: string;
   layoutColumns: number;
@@ -84,6 +85,10 @@ function normalizePreferences(value: unknown): Preferences {
       typeof candidate.darkMode === 'boolean'
         ? candidate.darkMode
         : fallback.darkMode,
+    daylightSaving:
+      typeof candidate.daylightSaving === 'boolean'
+        ? candidate.daylightSaving
+        : fallback.daylightSaving,
     volume:
       typeof candidate.volume === 'number' && Number.isFinite(candidate.volume)
         ? Math.min(100, Math.max(0, candidate.volume))

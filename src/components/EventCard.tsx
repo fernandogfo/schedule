@@ -29,6 +29,7 @@ import {
   formatDateTime,
   formatTimeOfDay,
 } from '../lib/time';
+import { DAYLIGHT_SAVING_MINUTES } from '../lib/constants';
 import type { EventWithTimers } from '../schemas/schedule';
 
 interface EventCardProps {
@@ -50,6 +51,8 @@ export function EventCard({ state, onEdit }: EventCardProps) {
     event,
     now,
     preferences.region,
+    8,
+    preferences.daylightSaving ? DAYLIGHT_SAVING_MINUTES : 0,
   );
   const externalLink =
     event.link && /^https?:\/\//i.test(event.link) ? event.link : null;

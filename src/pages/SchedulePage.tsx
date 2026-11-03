@@ -27,7 +27,7 @@ import {
   filterActiveStates,
   filterFavoriteStates,
 } from '../lib/schedule';
-import { STORAGE_KEYS } from '../lib/constants';
+import { DAYLIGHT_SAVING_MINUTES, STORAGE_KEYS } from '../lib/constants';
 import {
   MAX_LAYOUT_COLUMNS,
   movePanel,
@@ -125,6 +125,9 @@ export function SchedulePage() {
       ? autoColumns
       : Math.max(1, Math.min(MAX_LAYOUT_COLUMNS, preferences.layoutColumns));
   const wideLayout = columns > 3;
+  const daylightSavingOffset = preferences.daylightSaving
+    ? DAYLIGHT_SAVING_MINUTES
+    : 0;
 
   const states = useMemo(() => {
     if (!data) return [];
@@ -133,8 +136,16 @@ export function SchedulePage() {
       now,
       preferences.region,
       preferences.showDisabled,
+      daylightSavingOffset,
     );
-  }, [data, events, now, preferences.region, preferences.showDisabled]);
+  }, [
+    data,
+    daylightSavingOffset,
+    events,
+    now,
+    preferences.region,
+    preferences.showDisabled,
+  ]);
 
   const statesByCategory = useMemo(() => {
     const map = new Map<string, typeof states>();

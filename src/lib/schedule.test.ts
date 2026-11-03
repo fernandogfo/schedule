@@ -66,4 +66,14 @@ describe('event state filters', () => {
     expect(filterActiveStates([running, upcoming])).toEqual([running]);
     expect(filterActiveStates([upcoming])).toEqual([]);
   });
+
+  it('applies the daylight saving offset to event states', () => {
+    const shifted = calculateEventState(
+      event('shifted', [timer('timer-3', 'shifted')]),
+      now,
+      'NA',
+      60,
+    );
+    expect(shifted.next?.start.toISOString()).toBe('2026-10-26T12:00:00.000Z');
+  });
 });

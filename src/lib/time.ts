@@ -41,19 +41,24 @@ export function dayKey(date: Dayjs): Day {
   return DAYS[date.day()];
 }
 
-function createOccurrence(timer: ScheduleTimer, start: Dayjs): Occurrence | null {
+function createOccurrence(
+  timer: ScheduleTimer,
+  start: Dayjs,
+  offsetMinutes = 0,
+): Occurrence | null {
   const parts = parseTime(timer.time);
   if (!parts) return null;
 
-  const occurrenceStart = start
+  const scheduledStart = start
     .hour(parts.hours)
     .minute(parts.minutes)
     .second(parts.seconds)
     .millisecond(0);
-  const day = dayKey(occurrenceStart);
+  const day = dayKey(scheduledStart);
 
   if (timer.days.length > 0 && !timer.days.includes(day)) return null;
 
+  const occurrenceStart = scheduledStart.add(offsetMinutes, 'minute');
   const length = durationSeconds(timer.duration);
   return {
     timer,
@@ -69,34 +74,52 @@ export function getOccurrences(
   now: Dayjs,
   backDays = 1,
   forwardDays = 8,
+  offsetMinutes = 0,
 ): Occurrence[] {
   const today = now.utc().startOf('day');
   const occurrences: Occurrence[] = [];
 
   for (let offset = -backDays; offset <= forwardDays; offset += 1) {
-    const occurrence = createOccurrence(timer, today.add(offset, 'day'));
+    const occurrence = createOccurrence(
+      timer,
+      today.add(offset, 'day'),
+      offsetMinutes,
+    );
     if (occurrence) occurrences.push(occurrence);
   }
 
   return occurrences.sort((left, right) => left.start.valueOf() - right.start.valueOf());
 }
 
-export function getNextOccurrence(timer: ScheduleTimer, now: Dayjs): Occurrence | null {
+export function getNextOccurrence(
+  timer: ScheduleTimer,
+  now: Dayjs,
+  offsetMinutes = 0,
+): Occurrence | null {
   return (
-    getOccurrences(timer, now, 0, 9).find((occurrence) => occurrence.start.isAfter(now)) ??
-    null
+    getOccurrences(timer, now, 0, 9, offsetMinutes).find((occurrence) =>
+      occurrence.start.isAfter(now),
+    ) ?? null
   );
 }
 
-export function getPreviousOccurrence(timer: ScheduleTimer, now: Dayjs): Occurrence | null {
-  const occurrences = getOccurrences(timer, now, 2, 0).filter(
+export function getPreviousOccurrence(
+  timer: ScheduleTimer,
+  now: Dayjs,
+  offsetMinutes = 0,
+): Occurrence | null {
+  const occurrences = getOccurrences(timer, now, 2, 0, offsetMinutes).filter(
     (occurrence) => !occurrence.start.isAfter(now),
   );
   return occurrences.at(-1) ?? null;
 }
 
-export function getActiveOccurrence(timer: ScheduleTimer, now: Dayjs): Occurrence | null {
-  const active = getOccurrences(timer, now, 2, 0).filter(
+export function getActiveOccurrence(
+  timer: ScheduleTimer,
+  now: Dayjs,
+  offsetMinutes = 0,
+): Occurrence | null {
+  const active = getOccurrences(timer, now, 2, 0, offsetMinutes).filter(
     (occurrence) => !occurrence.start.isAfter(now) && occurrence.end.isAfter(now),
   );
   return active.at(-1) ?? null;
@@ -106,8 +129,9 @@ export function getUpcomingOccurrences(
   timer: ScheduleTimer,
   now: Dayjs,
   limit = 8,
+  offsetMinutes = 0,
 ): Occurrence[] {
-  return getOccurrences(timer, now, 0, 9)
+  return getOccurrences(timer, now, 0, 9, offsetMinutes)
     .filter((occurrence) => occurrence.start.isAfter(now))
     .slice(0, limit);
 }
@@ -115,8 +139,12 @@ export function getUpcomingOccurrences(
 export function getMostRelevantOccurrence(
   timer: ScheduleTimer,
   now: Dayjs,
+  offsetMinutes = 0,
 ): Occurrence | null {
-  return getActiveOccurrence(timer, now) ?? getNextOccurrence(timer, now);
+  return (
+    getActiveOccurrence(timer, now, offsetMinutes) ??
+    getNextOccurrence(timer, now, offsetMinutes)
+  );
 }
 
 export function formatCountdown(milliseconds: number): string {

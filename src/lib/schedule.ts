@@ -39,11 +39,12 @@ export function calculateEventState(
   event: EventWithTimers,
   now: Dayjs,
   region: Region,
+  offsetMinutes = 0,
 ): EventState {
   const timers = filterTimersByRegion(event.timers, region).map((timer) => ({
     timer,
-    active: getActiveOccurrence(timer, now),
-    next: getNextOccurrence(timer, now),
+    active: getActiveOccurrence(timer, now, offsetMinutes),
+    next: getNextOccurrence(timer, now, offsetMinutes),
   }));
 
   const active =
@@ -73,10 +74,11 @@ export function calculateEventStates(
   now: Dayjs,
   region: Region,
   showDisabled: boolean,
+  offsetMinutes = 0,
 ): EventState[] {
   return events
     .filter((event) => showDisabled || !event.disabled)
-    .map((event) => calculateEventState(event, now, region))
+    .map((event) => calculateEventState(event, now, region, offsetMinutes))
     .sort((left, right) => {
       if (left.running !== right.running) return left.running ? -1 : 1;
       if (left.target && right.target) {
@@ -131,9 +133,10 @@ export function getEventUpcomingOccurrences(
   now: Dayjs,
   region: Region,
   limit = 8,
+  offsetMinutes = 0,
 ): Occurrence[] {
   return filterTimersByRegion(event.timers, region)
-    .flatMap((timer) => getUpcomingOccurrences(timer, now, limit))
+    .flatMap((timer) => getUpcomingOccurrences(timer, now, limit, offsetMinutes))
     .sort((left, right) => left.start.valueOf() - right.start.valueOf())
     .slice(0, limit);
 }

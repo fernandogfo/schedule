@@ -45,10 +45,13 @@ export const DEFAULT_SETTINGS = {
   region: 'NA' as Region,
   showDisabled: false,
   darkMode: false,
+  daylightSaving: false,
   volume: 70,
   cargoServerId: '',
   tts: { ...DEFAULT_TTS },
 } as const;
+
+export const DAYLIGHT_SAVING_MINUTES = 60;
 
 export const STORAGE_KEYS = {
   overrides: 'archeage-schedule.overrides.v1',

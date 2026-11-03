@@ -15,6 +15,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import { useSchedule } from '../state/ScheduleProvider';
 import { REGIONS } from '../lib/constants';
 import { InGameTime } from './InGameTime';
@@ -103,6 +104,33 @@ export function ScheduleToolbar({
               ) : (
                 <VisibilityOffIcon />
               )}
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip
+            title={
+              preferences.daylightSaving
+                ? 'Daylight saving time: on (+1 hour)'
+                : 'Daylight saving time: off'
+            }
+          >
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setPreferences((current) => ({
+                  ...current,
+                  daylightSaving: !current.daylightSaving,
+                }))
+              }
+              aria-label="Toggle daylight saving time"
+              aria-pressed={preferences.daylightSaving}
+              sx={
+                preferences.daylightSaving
+                  ? { color: '#ffd54f' }
+                  : undefined
+              }
+            >
+              <WbSunnyIcon />
             </IconButton>
           </Tooltip>
 

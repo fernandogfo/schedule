@@ -3,6 +3,7 @@ import { getCargoPlan, getCargoTargetTime, getServer } from '../../lib/cargo';
 import { getCategory, filterTimersByRegion } from '../../lib/schedule';
 import { getReminderMessage, getStartMessage } from '../../lib/messages';
 import { getNextOccurrence, getPreviousOccurrence } from '../../lib/time';
+import { DAYLIGHT_SAVING_MINUTES } from '../../lib/constants';
 import { useSchedule } from '../../state/ScheduleProvider';
 import { useAudioCues } from '../audio/AudioProvider';
 import { useSpeech } from '../speech/SpeechProvider';
@@ -27,6 +28,7 @@ export function AlertEngine() {
     if (!data || !cargoShip) return;
 
     const nowMs = now.valueOf();
+    const offsetMinutes = preferences.daylightSaving ? DAYLIGHT_SAVING_MINUTES : 0;
     const cueById = new Map(data.cues.map((cue) => [cue.id, cue]));
     let bestCue: string | null = null;
     let bestPriority = -1;
@@ -64,8 +66,8 @@ export function AlertEngine() {
         );
         if (selectedOptions.length === 0) return;
 
-        const previous = getPreviousOccurrence(timer, now);
-        const next = getNextOccurrence(timer, now);
+        const previous = getPreviousOccurrence(timer, now, offsetMinutes);
+        const next = getNextOccurrence(timer, now, offsetMinutes);
 
         selectedOptions.forEach((option) => {
           if (option.kind === 'start') {
@@ -155,6 +157,7 @@ export function AlertEngine() {
     now,
     playCue,
     preferences.cargoServerId,
+    preferences.daylightSaving,
     preferences.region,
     speak,
     speakSelections,

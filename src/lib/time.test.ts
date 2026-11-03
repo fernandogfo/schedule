@@ -55,6 +55,23 @@ describe('time helpers', () => {
     expect(next?.start.toISOString()).toBe('2026-10-27T11:00:00.000Z');
   });
 
+  it('shifts occurrences by the daylight saving offset', () => {
+    const now = dayjs.utc('2026-10-26T10:00:00Z');
+    const next = getNextOccurrence(timer(), now, 60);
+    expect(next?.start.toISOString()).toBe('2026-10-26T12:00:00.000Z');
+  });
+
+  it('keeps the original weekday when the offset crosses midnight', () => {
+    const now = dayjs.utc('2026-10-26T10:00:00Z');
+    const next = getNextOccurrence(
+      timer({ time: '23:30:00', days: ['MONDAY'] }),
+      now,
+      60,
+    );
+    expect(next?.start.toISOString()).toBe('2026-10-27T00:30:00.000Z');
+    expect(next?.day).toBe('MONDAY');
+  });
+
   it('formats long and short countdowns', () => {
     expect(formatCountdown(65_000)).toBe('1:05');
     expect(formatCountdown(3_665_000)).toBe('1:01:05');
