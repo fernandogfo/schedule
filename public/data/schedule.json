@@ -210,8 +210,16 @@
       "disabled": true
     },
     {
-      "id": "event-delphinad-ghost-ships",
-      "name": "Delphinad Ghost Ships",
+      "id": "event-dgs-west-spawn",
+      "name": "DGS West Spawn",
+      "categoryId": "world-bosses",
+      "icon": "delphinad_ghost_ships",
+      "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67882",
+      "disabled": false
+    },
+    {
+      "id": "event-dgs-east-spawn",
+      "name": "DGS East Spawn",
       "categoryId": "world-bosses",
       "icon": "delphinad_ghost_ships",
       "link": "https://na.archerage.to/forums/index.php?threads/events-mini-guide.8861/#post-67882",
@@ -623,8 +631,8 @@
       ]
     },
     {
-      "id": "event-delphinad-ghost-ships-timer-1",
-      "eventId": "event-delphinad-ghost-ships",
+      "id": "event-dgs-west-spawn-timer-1",
+      "eventId": "event-dgs-west-spawn",
       "time": "01:00",
       "duration": "01:00",
       "days": [
@@ -633,8 +641,8 @@
       ]
     },
     {
-      "id": "event-delphinad-ghost-ships-timer-2",
-      "eventId": "event-delphinad-ghost-ships",
+      "id": "event-dgs-east-spawn-timer-1",
+      "eventId": "event-dgs-east-spawn",
       "time": "01:00",
       "duration": "01:00",
       "days": [

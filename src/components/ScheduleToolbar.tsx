@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -38,6 +39,12 @@ export function ScheduleToolbar({
     setPreferences,
     reload,
   } = useSchedule();
+  const [showSummerTimeHint, setShowSummerTimeHint] = useState(true);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setShowSummerTimeHint(false), 5000);
+    return () => window.clearTimeout(timeout);
+  }, []);
 
   return (
     <AppBar position="static" className="schedule-appbar" elevation={3}>
@@ -109,11 +116,11 @@ export function ScheduleToolbar({
           </Tooltip>
 
           <Tooltip
-            title={
-              preferences.daylightSaving
-                ? 'Daylight saving time: on (+1 hour)'
-                : 'Daylight saving time: off'
-            }
+            key={showSummerTimeHint ? 'summer-time-hint' : 'summer-time-tooltip'}
+            title="Summer time: +1 hour"
+            open={showSummerTimeHint ? true : undefined}
+            arrow
+            placement="bottom"
           >
             <IconButton
               color="inherit"
