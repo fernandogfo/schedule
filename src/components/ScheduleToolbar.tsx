@@ -121,6 +121,18 @@ export function ScheduleToolbar({
             open={showSummerTimeHint ? true : undefined}
             arrow
             placement="bottom"
+            slotProps={{
+              tooltip: {
+                sx: {
+                  backgroundColor: '#ff6d00',
+                  color: '#000000',
+                  fontWeight: 700,
+                },
+              },
+              arrow: {
+                sx: { color: '#ff6d00' },
+              },
+            }}
           >
             <IconButton
               color="inherit"
