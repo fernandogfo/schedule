@@ -62,6 +62,7 @@ export const STORAGE_KEYS = {
   panelOrder: 'archeage-schedule.panel-order.v1',
   favorites: 'archeage-schedule.favorites.v1',
   vyrava: 'archeage-schedule.vyrava.v1',
+  discord: 'archeage-schedule.discord.v1',
 } as const;
 
 export const FALLBACK_DATA_URL = '/data/schedule.json';

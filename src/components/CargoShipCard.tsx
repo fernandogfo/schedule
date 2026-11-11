@@ -16,12 +16,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { AlertMenu } from './AlertMenu';
 import { CargoEditDialog } from './CargoEditDialog';
+import { DiscordWebhookMenu } from './DiscordWebhookMenu';
 import { useSchedule } from '../state/ScheduleProvider';
 import {
   getCargoPlan,
   getCargoShipPosition,
   getServer,
 } from '../lib/cargo';
+import { CARGO_PANEL_KEY } from '../lib/discord';
 import {
   formatCountdown,
   formatDateTime,
@@ -83,6 +85,10 @@ export function CargoShipCard() {
                 <DragIndicatorIcon fontSize="small" />
               </Box>
             </Tooltip>
+            <DiscordWebhookMenu
+              categoryKey={CARGO_PANEL_KEY}
+              label="Discord webhook for the cargo ship"
+            />
             {server && (
               <AlertMenu
                 alertKey={`cargo:${server.id}`}

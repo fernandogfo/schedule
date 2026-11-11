@@ -357,5 +357,17 @@
   "GM Wonderland Races will start in 1 minute.": "assets/audio/voice/51156232e94af4c4.wav",
   "GM Wonderland Races will start in 15 minutes.": "assets/audio/voice/ed3d602f8ebeeaef.wav",
   "GM Wonderland Races will start in 30 minutes.": "assets/audio/voice/c3afc9c455a4849e.wav",
-  "GM Wonderland Races will start in 7 minutes 30 seconds.": "assets/audio/voice/92b6b9875846c4b7.wav"
+  "GM Wonderland Races will start in 7 minutes 30 seconds.": "assets/audio/voice/92b6b9875846c4b7.wav",
+  "Audio messages enabled for DGS East Spawn.": "assets/audio/voice/8a25e6522aed5bab.wav",
+  "Audio messages enabled for DGS West Spawn.": "assets/audio/voice/faa817ff83853969.wav",
+  "DGS East Spawn has spawned.": "assets/audio/voice/9e1a8b2db17d9c06.wav",
+  "DGS East Spawn will spawn in 1 minute.": "assets/audio/voice/6510f4167cab09ac.wav",
+  "DGS East Spawn will spawn in 15 minutes.": "assets/audio/voice/bde657ac846ba12b.wav",
+  "DGS East Spawn will spawn in 30 minutes.": "assets/audio/voice/baa0ba8562b70d75.wav",
+  "DGS East Spawn will spawn in 7 minutes 30 seconds.": "assets/audio/voice/4c63fd3223d27278.wav",
+  "DGS West Spawn has spawned.": "assets/audio/voice/2b04e23e81dd9978.wav",
+  "DGS West Spawn will spawn in 1 minute.": "assets/audio/voice/f67ab93a128175f4.wav",
+  "DGS West Spawn will spawn in 15 minutes.": "assets/audio/voice/8022bcdf08d52d02.wav",
+  "DGS West Spawn will spawn in 30 minutes.": "assets/audio/voice/e45586bbc2f01d40.wav",
+  "DGS West Spawn will spawn in 7 minutes 30 seconds.": "assets/audio/voice/892962d6cc29750e.wav"
 }

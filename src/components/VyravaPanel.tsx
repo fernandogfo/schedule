@@ -6,8 +6,10 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { DiscordWebhookMenu } from './DiscordWebhookMenu';
 import { VyravaItemCard } from './VyravaItemCard';
 import { getContrastText } from '../lib/color';
+import { VYRAVA_PANEL_KEY } from '../lib/discord';
 import { getVyravaItemStates } from '../lib/vyrava';
 import { useSchedule } from '../state/ScheduleProvider';
 
@@ -47,6 +49,10 @@ export function VyravaPanel({ collapsed, onToggle }: VyravaPanelProps) {
         <Typography variant="caption" className="category-count">
           {states.length}
         </Typography>
+        <DiscordWebhookMenu
+          categoryKey={VYRAVA_PANEL_KEY}
+          label={`Discord webhook for ${section.title}`}
+        />
         <Tooltip title="Drag to reorder">
           <Box
             component="span"

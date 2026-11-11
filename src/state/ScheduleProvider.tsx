@@ -20,6 +20,12 @@ import type {
 } from '../schemas/schedule';
 import { DEFAULT_SETTINGS, REGIONS, STORAGE_KEYS, type Region } from '../lib/constants';
 import {
+  EMPTY_DISCORD_WEBHOOKS,
+  normalizeDiscordWebhooks,
+  normalizeWebhookUrl,
+  type DiscordWebhooks,
+} from '../lib/discord';
+import {
   normalizeLayoutColumns,
   normalizePanelLayout,
   type PanelLayout,
@@ -60,6 +66,18 @@ export interface Preferences {
 
 export type AlertSelections = Record<string, string[]>;
 export type SpeakSelections = Record<string, boolean>;
+
+function setWebhookEntry(
+  map: Record<string, string>,
+  key: string,
+  url: string,
+): Record<string, string> {
+  const normalized = normalizeWebhookUrl(url);
+  const updated = { ...map };
+  if (normalized) updated[key] = normalized;
+  else delete updated[key];
+  return updated;
+}
 
 const defaultPreferences = (): Preferences => ({
   ...DEFAULT_SETTINGS,
@@ -230,6 +248,10 @@ export interface ScheduleContextValue {
   toggleAlert: (key: string, optionId: string) => void;
   clearAlerts: (key: string) => void;
   setSpeaking: (key: string, enabled: boolean) => void;
+  discordWebhooks: DiscordWebhooks;
+  setGlobalWebhook: (url: string) => void;
+  setEventWebhook: (key: string, url: string) => void;
+  setCategoryWebhook: (key: string, url: string) => void;
 }
 
 const ScheduleContext = createContext<ScheduleContextValue | null>(null);
@@ -282,6 +304,12 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     {},
     normalizeVyravaTimers,
   );
+  const [discordWebhooks, setDiscordWebhooks, resetDiscordWebhooks] =
+    usePersistentState<DiscordWebhooks>(
+      STORAGE_KEYS.discord,
+      EMPTY_DISCORD_WEBHOOKS,
+      normalizeDiscordWebhooks,
+    );
   const favoriteIds = useMemo(() => new Set(favorites), [favorites]);
   const requestId = useRef(0);
   const hasData = useRef(false);
@@ -468,6 +496,36 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     [setSpeakSelections],
   );
 
+  const setGlobalWebhook = useCallback(
+    (url: string) => {
+      setDiscordWebhooks((current) => ({
+        ...current,
+        global: normalizeWebhookUrl(url),
+      }));
+    },
+    [setDiscordWebhooks],
+  );
+
+  const setEventWebhook = useCallback(
+    (key: string, url: string) => {
+      setDiscordWebhooks((current) => ({
+        ...current,
+        events: setWebhookEntry(current.events, key, url),
+      }));
+    },
+    [setDiscordWebhooks],
+  );
+
+  const setCategoryWebhook = useCallback(
+    (key: string, url: string) => {
+      setDiscordWebhooks((current) => ({
+        ...current,
+        categories: setWebhookEntry(current.categories, key, url),
+      }));
+    },
+    [setDiscordWebhooks],
+  );
+
   const isFavorite = useCallback(
     (eventId: string) => favoriteIds.has(eventId),
     [favoriteIds],
@@ -492,12 +550,18 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     resetPreferencesState();
     resetAlertSelections();
     resetSpeakSelections();
+    resetDiscordWebhooks();
     try {
       window.localStorage.removeItem(STORAGE_KEYS.panelOrder);
     } catch {
       // Storage can be unavailable in private browsing or when the quota is full.
     }
-  }, [resetAlertSelections, resetPreferencesState, resetSpeakSelections]);
+  }, [
+    resetAlertSelections,
+    resetDiscordWebhooks,
+    resetPreferencesState,
+    resetSpeakSelections,
+  ]);
 
   const value = useMemo<ScheduleContextValue>(
     () => ({
@@ -533,6 +597,10 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       toggleAlert,
       clearAlerts,
       setSpeaking,
+      discordWebhooks,
+      setGlobalWebhook,
+      setEventWebhook,
+      setCategoryWebhook,
     }),
     [
       alertSelections,
@@ -540,6 +608,7 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       clearAlerts,
       clearFavorites,
       data,
+      discordWebhooks,
       favorites,
       isFavorite,
       deleteEvent,
@@ -556,6 +625,9 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       restoreEvent,
       saveCargoTimer,
       saveEvent,
+      setCategoryWebhook,
+      setEventWebhook,
+      setGlobalWebhook,
       setPreferences,
       setSpeaking,
       source,

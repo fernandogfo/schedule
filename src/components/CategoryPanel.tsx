@@ -6,6 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { DiscordWebhookMenu } from './DiscordWebhookMenu';
 import { EventCard } from './EventCard';
 import { getContrastText } from '../lib/color';
 import type { EventState } from '../lib/schedule';
@@ -51,6 +52,10 @@ export function CategoryPanel({
         <Typography variant="caption" className="category-count">
           {states.length}
         </Typography>
+        <DiscordWebhookMenu
+          categoryKey={category.id}
+          label={`Discord webhook for ${category.name}`}
+        />
         <Tooltip title="Drag to reorder">
           <Box
             component="span"

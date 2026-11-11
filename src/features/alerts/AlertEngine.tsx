@@ -10,6 +10,13 @@ import {
 import { getNextOccurrence, getPreviousOccurrence } from '../../lib/time';
 import { getVyravaItemState, getVyravaKey } from '../../lib/vyrava';
 import { DAYLIGHT_SAVING_MINUTES } from '../../lib/constants';
+import {
+  CARGO_PANEL_KEY,
+  VYRAVA_PANEL_KEY,
+  hasDiscordWebhooks,
+  resolveWebhookUrls,
+} from '../../lib/discord';
+import { sendDiscordMessage } from '../../services/discordService';
 import { useSchedule } from '../../state/ScheduleProvider';
 import { useAudioCues } from '../audio/AudioProvider';
 import { useSpeech } from '../speech/SpeechProvider';
@@ -26,10 +33,12 @@ export function AlertEngine() {
     alertSelections,
     speakSelections,
     vyravaTimers,
+    discordWebhooks,
   } = useSchedule();
   const { playCue } = useAudioCues();
   const { supported, speak } = useSpeech();
   const firedRef = useRef(new Set<string>());
+  const discordActive = hasDiscordWebhooks(discordWebhooks);
 
   useEffect(() => {
     if (!data || !cargoShip) return;
@@ -46,6 +55,13 @@ export function AlertEngine() {
       if (firedRef.current.size > 4000) firedRef.current.clear();
       firedRef.current.add(key);
       return true;
+    };
+
+    const notifyDiscord = (alertKey: string, categoryKey: string, message: string) => {
+      if (!discordActive) return;
+      resolveWebhookUrls(discordWebhooks, alertKey, categoryKey).forEach((url) => {
+        sendDiscordMessage(url, message);
+      });
     };
 
     const triggerCue = (cueId: string | undefined) => {
@@ -89,11 +105,9 @@ export function AlertEngine() {
             triggerCue(
               option.cueId ?? category?.startCueId ?? 'start',
             );
-            if (wantsSpeech) {
-              messages.push(
-                getStartMessage(event, category, timer, previous, now),
-              );
-            }
+            const message = getStartMessage(event, category, timer, previous, now);
+            if (wantsSpeech) messages.push(message);
+            notifyDiscord(event.id, event.categoryId, message);
             return;
           }
 
@@ -108,11 +122,16 @@ export function AlertEngine() {
           triggerCue(
             option.cueId ?? category?.reminderCueId ?? 'reminder',
           );
-          if (wantsSpeech) {
-            messages.push(
-              getReminderMessage(event, category, timer, next, now, option.leadSeconds),
-            );
-          }
+          const message = getReminderMessage(
+            event,
+            category,
+            timer,
+            next,
+            now,
+            option.leadSeconds,
+          );
+          if (wantsSpeech) messages.push(message);
+          notifyDiscord(event.id, event.categoryId, message);
         });
       });
     });
@@ -143,7 +162,9 @@ export function AlertEngine() {
               if (!markFired(key)) return;
 
               triggerCue(alert.cueId ?? 'ship_leaving');
+              const message = alert.speech || alert.name;
               if (wantsSpeech && alert.speech) messages.push(alert.speech);
+              notifyDiscord(cargoKey, CARGO_PANEL_KEY, message);
             });
           });
         }
@@ -179,9 +200,9 @@ export function AlertEngine() {
             if (!markFired(key)) return;
 
             triggerCue(option.cueId ?? vyravaSection.startCueId ?? 'start');
-            if (wantsSpeech) {
-              messages.push(getVyravaStartMessage(vyravaSection, item));
-            }
+            const message = getVyravaStartMessage(vyravaSection, item);
+            if (wantsSpeech) messages.push(message);
+            notifyDiscord(alertKey, VYRAVA_PANEL_KEY, message);
             return;
           }
 
@@ -193,11 +214,13 @@ export function AlertEngine() {
           if (!markFired(key)) return;
 
           triggerCue(option.cueId ?? vyravaSection.reminderCueId ?? 'reminder');
-          if (wantsSpeech) {
-            messages.push(
-              getVyravaReminderMessage(vyravaSection, item, option.leadSeconds),
-            );
-          }
+          const message = getVyravaReminderMessage(
+            vyravaSection,
+            item,
+            option.leadSeconds,
+          );
+          if (wantsSpeech) messages.push(message);
+          notifyDiscord(alertKey, VYRAVA_PANEL_KEY, message);
         });
       });
     }
@@ -212,6 +235,8 @@ export function AlertEngine() {
     alertSelections,
     cargoShip,
     data,
+    discordActive,
+    discordWebhooks,
     events,
     now,
     playCue,

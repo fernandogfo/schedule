@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useSchedule } from '../state/ScheduleProvider';
 import { useSpeech } from '../features/speech/SpeechProvider';
+import { DiscordUrlField } from './DiscordUrlField';
 
 export interface AlertMenuOption {
   id: string;
@@ -36,6 +37,8 @@ export function AlertMenu({
     clearAlerts,
     speakSelections,
     setSpeaking,
+    discordWebhooks,
+    setEventWebhook,
   } = useSchedule();
   const { supported, speak } = useSpeech();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -126,6 +129,18 @@ export function AlertMenu({
             <Typography variant="body2">No alerts are configured.</Typography>
           </MenuItem>
         )}
+        <Box className="alert-menu-divider" />
+        <Box className="alert-menu-header">
+          <Typography variant="subtitle2">Discord webhook</Typography>
+        </Box>
+        <Box sx={{ px: 2, pb: 1.5 }} onClick={(event) => event.stopPropagation()}>
+          <DiscordUrlField
+            value={discordWebhooks.events[alertKey] ?? ''}
+            onChange={(url) => setEventWebhook(alertKey, url)}
+            label="Event webhook URL"
+            helperText="Notifications for this event are also sent to this URL."
+          />
+        </Box>
       </Menu>
     </>
   );

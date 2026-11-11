@@ -31,6 +31,7 @@ import { useAudioCues } from '../features/audio/AudioProvider';
 import { REGIONS, STORAGE_KEYS } from '../lib/constants';
 import { MAX_LAYOUT_COLUMNS } from '../lib/layout';
 import { xttsAvailable, xttsCheckHealth } from '../services/xttsService';
+import { DiscordUrlField } from './DiscordUrlField';
 
 interface SettingsDialogProps {
   open: boolean;
@@ -54,6 +55,8 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
     reload,
     source,
     warning,
+    discordWebhooks,
+    setGlobalWebhook,
   } = useSchedule();
   const { supported, xttsActive, staticClipsCount, voices, selectedVoice, speak } = useSpeech();
   const { testAudio } = useAudioCues();
@@ -439,6 +442,24 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
                 </Button>
               </>
             )}
+          </Box>
+
+          <Divider />
+
+          <Box>
+            <Typography variant="subtitle2" className="settings-section-title">
+              Discord notifications
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              Triggered alerts are also sent to Discord webhooks. This URL
+              receives every notification; events and panels can have their
+              own additional URLs.
+            </Typography>
+            <DiscordUrlField
+              value={discordWebhooks.global}
+              onChange={setGlobalWebhook}
+              label="Global webhook URL"
+            />
           </Box>
 
           <Divider />
