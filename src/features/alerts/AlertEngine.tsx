@@ -7,7 +7,7 @@ import {
   getVyravaReminderMessage,
   getVyravaStartMessage,
 } from '../../lib/messages';
-import { getNextOccurrence, getPreviousOccurrence } from '../../lib/time';
+import { getNextOccurrence, getPreviousOccurrence, isDue } from '../../lib/time';
 import { getVyravaItemState, getVyravaKey } from '../../lib/vyrava';
 import { DAYLIGHT_SAVING_MINUTES } from '../../lib/constants';
 import {
@@ -20,8 +20,6 @@ import { sendDiscordMessage } from '../../services/discordService';
 import { useSchedule } from '../../state/ScheduleProvider';
 import { useAudioCues } from '../audio/AudioProvider';
 import { useSpeech } from '../speech/SpeechProvider';
-
-const TOLERANCE_MS = 2600;
 
 export function AlertEngine() {
   const {
@@ -38,12 +36,15 @@ export function AlertEngine() {
   const { playCue } = useAudioCues();
   const { supported, speak } = useSpeech();
   const firedRef = useRef(new Set<string>());
+  const lastTickRef = useRef<number | null>(null);
   const discordActive = hasDiscordWebhooks(discordWebhooks);
 
   useEffect(() => {
     if (!data || !cargoShip) return;
 
     const nowMs = now.valueOf();
+    const previousTickMs = lastTickRef.current ?? nowMs;
+    lastTickRef.current = nowMs;
     const offsetMinutes = preferences.daylightSaving ? DAYLIGHT_SAVING_MINUTES : 0;
     const cueById = new Map(data.cues.map((cue) => [cue.id, cue]));
     let bestCue: string | null = null;
@@ -96,8 +97,7 @@ export function AlertEngine() {
           if (option.kind === 'start') {
             if (!previous) return;
             const targetMs = previous.start.valueOf();
-            const delta = nowMs - targetMs;
-            if (delta < 0 || delta > TOLERANCE_MS) return;
+            if (!isDue(targetMs, previousTickMs, nowMs)) return;
 
             const key = `${event.id}:${timer.id}:${previous.start.toISOString()}:${option.id}`;
             if (!markFired(key)) return;
@@ -113,8 +113,7 @@ export function AlertEngine() {
 
           if (!next) return;
           const targetMs = next.start.subtract(option.leadSeconds, 'second').valueOf();
-          const delta = nowMs - targetMs;
-          if (delta < 0 || delta > TOLERANCE_MS) return;
+          if (!isDue(targetMs, previousTickMs, nowMs)) return;
 
           const key = `${event.id}:${timer.id}:${next.start.toISOString()}:${option.id}`;
           if (!markFired(key)) return;
@@ -155,8 +154,7 @@ export function AlertEngine() {
             candidates.forEach((step) => {
               if (step.step.id !== alert.stepId) return;
               const targetMs = getCargoTargetTime(alert, step).valueOf();
-              const delta = nowMs - targetMs;
-              if (delta < 0 || delta > TOLERANCE_MS) return;
+              if (!isDue(targetMs, previousTickMs, nowMs)) return;
 
               const key = `${cargoKey}:${step.step.id}:${step.start.toISOString()}:${alert.id}`;
               if (!markFired(key)) return;
@@ -193,8 +191,7 @@ export function AlertEngine() {
         selectedOptions.forEach((option) => {
           if (option.kind === 'start') {
             const targetMs = end.valueOf();
-            const delta = nowMs - targetMs;
-            if (delta < 0 || delta > TOLERANCE_MS) return;
+            if (!isDue(targetMs, previousTickMs, nowMs)) return;
 
             const key = `${alertKey}:${startedAt}:${option.id}`;
             if (!markFired(key)) return;
@@ -207,8 +204,7 @@ export function AlertEngine() {
           }
 
           const targetMs = end.subtract(option.leadSeconds, 'second').valueOf();
-          const delta = nowMs - targetMs;
-          if (delta < 0 || delta > TOLERANCE_MS) return;
+          if (!isDue(targetMs, previousTickMs, nowMs)) return;
 
           const key = `${alertKey}:${startedAt}:${option.id}`;
           if (!markFired(key)) return;

@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "data:import": "node scripts/import-legacy.mjs",
+    "audio:keepawake": "node scripts/generate-keepawake.mjs",
     "schema:export": "tsx scripts/export-schema.ts",
     "data:build": "npm run data:import && npm run schema:export",
     "preview": "vite preview"

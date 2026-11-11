@@ -58,6 +58,7 @@ export interface Preferences {
   darkMode: boolean;
   daylightSaving: boolean;
   volume: number;
+  keepAwake: boolean;
   cargoServerId: string;
   layoutColumns: number;
   panelLayout: PanelLayout;
@@ -115,6 +116,10 @@ function normalizePreferences(value: unknown): Preferences {
       typeof candidate.volume === 'number' && Number.isFinite(candidate.volume)
         ? Math.min(100, Math.max(0, candidate.volume))
         : fallback.volume,
+    keepAwake:
+      typeof candidate.keepAwake === 'boolean'
+        ? candidate.keepAwake
+        : fallback.keepAwake,
     cargoServerId:
       typeof candidate.cargoServerId === 'string'
         ? candidate.cargoServerId

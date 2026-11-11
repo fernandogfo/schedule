@@ -8,6 +8,8 @@ import {
   getInGameTime,
   getMaintenanceStart,
   getNextOccurrence,
+  isDue,
+  MAX_ALERT_LATENCY_MS,
   parseTime,
 } from './time';
 import type { ScheduleTimer } from '../schemas/schedule';
@@ -92,5 +94,35 @@ describe('time helpers', () => {
     expect(getMaintenanceStart('THURSDAY', '12:00', now).toISOString()).toBe(
       '2026-10-22T12:00:00.000Z',
     );
+  });
+});
+
+describe('isDue', () => {
+  it('fires for targets inside the current tick window', () => {
+    expect(isDue(10_550, 10_000, 11_000)).toBe(true);
+    expect(isDue(11_000, 10_000, 11_000)).toBe(true);
+  });
+
+  it('does not fire for targets covered by a previous tick', () => {
+    expect(isDue(10_000, 10_000, 11_000)).toBe(false);
+    expect(isDue(9_500, 10_000, 11_000)).toBe(false);
+  });
+
+  it('does not fire for future targets', () => {
+    expect(isDue(12_000, 10_000, 11_000)).toBe(false);
+  });
+
+  it('catches up missed targets within two minutes', () => {
+    expect(MAX_ALERT_LATENCY_MS).toBe(120_000);
+    expect(isDue(40_000, 30_000, 130_000)).toBe(true);
+  });
+
+  it('drops targets older than two minutes', () => {
+    expect(isDue(9_000, 0, 130_000)).toBe(false);
+  });
+
+  it('honors a custom latency budget', () => {
+    expect(isDue(40_000, 0, 60_000, 30_000)).toBe(true);
+    expect(isDue(20_000, 0, 60_000, 30_000)).toBe(false);
   });
 });

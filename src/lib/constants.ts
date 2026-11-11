@@ -47,6 +47,7 @@ export const DEFAULT_SETTINGS = {
   darkMode: false,
   daylightSaving: false,
   volume: 70,
+  keepAwake: true,
   cargoServerId: '',
   tts: { ...DEFAULT_TTS },
 } as const;

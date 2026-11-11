@@ -245,6 +245,24 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
                 Test
               </Button>
             </Stack>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={preferences.keepAwake}
+                  onChange={(event) =>
+                    setPreferences((current) => ({
+                      ...current,
+                      keepAwake: event.target.checked,
+                    }))
+                  }
+                />
+              }
+              label="Keep alerts active in the background"
+            />
+            <Typography variant="caption" color="text.secondary" component="p">
+              Plays an inaudible tone so the browser keeps this tab running
+              while it is in the background. Requires sound to be enabled.
+            </Typography>
           </Box>
 
           <Divider />

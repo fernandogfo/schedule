@@ -147,6 +147,21 @@ export function getMostRelevantOccurrence(
   );
 }
 
+export const MAX_ALERT_LATENCY_MS = 120_000;
+
+export function isDue(
+  targetMs: number,
+  previousMs: number,
+  nowMs: number,
+  maxLatencyMs: number = MAX_ALERT_LATENCY_MS,
+): boolean {
+  return (
+    targetMs <= nowMs &&
+    targetMs > previousMs &&
+    nowMs - targetMs <= maxLatencyMs
+  );
+}
+
 export function formatCountdown(milliseconds: number): string {
   const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
   const days = Math.floor(totalSeconds / 86400);

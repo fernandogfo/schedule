@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from 'react';
 import { useSchedule } from '../../state/ScheduleProvider';
+import { startKeepAwake, stopKeepAwake } from './keepAwake';
 
 export interface AudioContextValue {
   unlocked: boolean | null;
@@ -87,6 +88,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     window.addEventListener('click', retry, { once: true });
     return () => window.removeEventListener('click', retry);
   }, [playCue, unlocked]);
+
+  useEffect(() => {
+    if (unlocked === true && preferences.keepAwake) startKeepAwake();
+    else stopKeepAwake();
+  }, [unlocked, preferences.keepAwake]);
 
   const testAudio = useCallback(() => {
     playCue('test');
