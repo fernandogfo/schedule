@@ -22,6 +22,8 @@ interface EventListPanelProps {
   onToggle: () => void;
   onEdit: (event: EventWithTimers) => void;
   emptyMessage: string;
+  extraRows?: ReactNode;
+  extraRowCount?: number;
 }
 
 export function EventListPanel({
@@ -34,6 +36,8 @@ export function EventListPanel({
   onToggle,
   onEdit,
   emptyMessage,
+  extraRows,
+  extraRowCount = 0,
 }: EventListPanelProps) {
   const contentId = `panel-${panelId}-events`;
   const toggleLabel = collapsed
@@ -52,7 +56,7 @@ export function EventListPanel({
           {title}
         </Typography>
         <Typography variant="caption" className="category-count">
-          {states.length}
+          {states.length + extraRowCount}
         </Typography>
         <Tooltip title="Drag to reorder">
           <Box
@@ -89,7 +93,8 @@ export function EventListPanel({
           {states.map((state) => (
             <EventCard key={state.event.id} state={state} onEdit={onEdit} />
           ))}
-          {states.length === 0 && (
+          {extraRows}
+          {states.length === 0 && extraRowCount === 0 && (
             <Typography
               variant="caption"
               color="text.secondary"

@@ -32,6 +32,10 @@ import {
   normalizeOverrides,
   type ScheduleOverrides,
 } from '../lib/overrides';
+import {
+  normalizeVyravaTimers,
+  type VyravaTimers,
+} from '../lib/vyrava';
 import { loadSchedule } from '../services/schedule';
 import { usePersistentState } from './usePersistentState';
 
@@ -215,6 +219,8 @@ export interface ScheduleContextValue {
   isEventOverridden: (eventId: string) => boolean;
   resetOverrides: () => void;
   saveCargoTimer: (serverId: string, timer: CargoTimer) => void;
+  vyravaTimers: VyravaTimers;
+  startVyravaTimer: (itemId: string) => void;
   alertSelections: AlertSelections;
   speakSelections: SpeakSelections;
   favorites: string[];
@@ -270,6 +276,11 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     STORAGE_KEYS.favorites,
     [],
     normalizeFavoriteIds,
+  );
+  const [vyravaTimers, setVyravaTimers] = usePersistentState<VyravaTimers>(
+    STORAGE_KEYS.vyrava,
+    {},
+    normalizeVyravaTimers,
   );
   const favoriteIds = useMemo(() => new Set(favorites), [favorites]);
   const requestId = useRef(0);
@@ -404,6 +415,16 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
     [data, setOverrides],
   );
 
+  const startVyravaTimer = useCallback(
+    (itemId: string) => {
+      setVyravaTimers((current) => ({
+        ...current,
+        [itemId]: dayjs().toISOString(),
+      }));
+    },
+    [setVyravaTimers],
+  );
+
   const toggleAlert = useCallback(
     (key: string, optionId: string) => {
       setAlertSelections((current) => {
@@ -501,6 +522,8 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       isEventOverridden,
       resetOverrides,
       saveCargoTimer,
+      vyravaTimers,
+      startVyravaTimer,
       alertSelections,
       speakSelections,
       favorites,
@@ -537,8 +560,10 @@ export function ScheduleProvider({ children }: { children: ReactNode }) {
       setSpeaking,
       source,
       speakSelections,
+      startVyravaTimer,
       toggleAlert,
       toggleFavorite,
+      vyravaTimers,
       warning,
     ],
   );

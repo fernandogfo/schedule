@@ -3,6 +3,8 @@ import type {
   Category,
   ScheduleEvent,
   ScheduleTimer,
+  VyravaItem,
+  VyravaSection,
 } from '../schemas/schedule';
 import type { Occurrence } from './time';
 import { formatDurationHuman, formatTimeOfDay } from './time';
@@ -94,4 +96,40 @@ export function getReminderMessage(
   ];
 
   return interpolate(legacyInterpolate(template, legacy), variables);
+}
+
+export function getVyravaStartMessage(
+  section: VyravaSection,
+  item: VyravaItem,
+): string {
+  const template =
+    section.startMessage || 'The Vyrava is active in {event}.';
+  const variables: MessageVariables = {
+    event: item.name,
+    time: '',
+    duration: formatDurationHuman(section.durationSeconds),
+    remaining: 'now',
+    label: section.title,
+  };
+
+  return interpolate(template, variables);
+}
+
+export function getVyravaReminderMessage(
+  section: VyravaSection,
+  item: VyravaItem,
+  remainingSeconds: number,
+): string {
+  const template =
+    section.reminderMessage ||
+    'The Vyrava will be active in {event} in {remaining}.';
+  const variables: MessageVariables = {
+    event: item.name,
+    time: '',
+    duration: formatDurationHuman(section.durationSeconds),
+    remaining: formatDurationHuman(remainingSeconds),
+    label: section.title,
+  };
+
+  return interpolate(template, variables);
 }

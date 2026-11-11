@@ -172,6 +172,32 @@ export const cargoShipSchema = z.object({
   notes: optionalString,
 });
 
+export const vyravaItemSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  icon: z.string().min(1).default('castle_siege'),
+});
+
+export const VYRAVA_DEFAULT_ITEMS = [
+  { id: 'heedmar', name: 'Heedmar', icon: 'castle_siege' },
+  { id: 'nuimari', name: 'Nuimari', icon: 'castle_siege' },
+  { id: 'calmlands', name: 'Calmlands', icon: 'castle_siege' },
+  { id: 'marcala', name: 'Marcala', icon: 'castle_siege' },
+] as const;
+
+export const vyravaSchema = z.object({
+  enabled: z.boolean().default(true),
+  title: z.string().min(1).default('Vyrava de Auroria'),
+  icon: z.string().min(1).default('boss'),
+  color: z.string().min(1).default('#834bff'),
+  durationSeconds: z.number().int().positive().default(10_800),
+  startMessage: optionalString,
+  reminderMessage: optionalString,
+  startCueId: optionalString,
+  reminderCueId: optionalString,
+  items: z.array(vyravaItemSchema).default([...VYRAVA_DEFAULT_ITEMS]),
+});
+
 export const sponsorStreamSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
@@ -260,6 +286,14 @@ export const scheduleDataSchema = z
       servers: [],
       maintenance: {},
     }),
+    vyrava: vyravaSchema.default({
+      enabled: true,
+      title: 'Vyrava de Auroria',
+      icon: 'boss',
+      color: '#834bff',
+      durationSeconds: 10_800,
+      items: [...VYRAVA_DEFAULT_ITEMS],
+    }),
     sponsors: sponsorsSchema.default({
       title: 'Sponsor',
       icon: 'torch',
@@ -343,6 +377,8 @@ export type CargoStep = z.infer<typeof cargoStepSchema>;
 export type CargoServer = z.infer<typeof cargoServerSchema>;
 export type CargoTimer = z.infer<typeof cargoTimerSchema>;
 export type CargoAlert = z.infer<typeof cargoAlertSchema>;
+export type VyravaItem = z.infer<typeof vyravaItemSchema>;
+export type VyravaSection = z.infer<typeof vyravaSchema>;
 export type SponsorStream = z.infer<typeof sponsorStreamSchema>;
 export type Sponsors = z.infer<typeof sponsorsSchema>;
 export type ScheduleTheme = z.infer<typeof themeSchema>;

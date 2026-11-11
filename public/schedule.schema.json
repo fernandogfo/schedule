@@ -655,6 +655,135 @@
       ],
       "additionalProperties": false
     },
+    "vyrava": {
+      "default": {
+        "enabled": true,
+        "title": "Vyrava de Auroria",
+        "icon": "boss",
+        "color": "#834bff",
+        "durationSeconds": 10800,
+        "items": [
+          {
+            "id": "heedmar",
+            "name": "Heedmar",
+            "icon": "castle_siege"
+          },
+          {
+            "id": "nuimari",
+            "name": "Nuimari",
+            "icon": "castle_siege"
+          },
+          {
+            "id": "calmlands",
+            "name": "Calmlands",
+            "icon": "castle_siege"
+          },
+          {
+            "id": "marcala",
+            "name": "Marcala",
+            "icon": "castle_siege"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "title": {
+          "default": "Vyrava de Auroria",
+          "type": "string",
+          "minLength": 1
+        },
+        "icon": {
+          "default": "boss",
+          "type": "string",
+          "minLength": 1
+        },
+        "color": {
+          "default": "#834bff",
+          "type": "string",
+          "minLength": 1
+        },
+        "durationSeconds": {
+          "default": 10800,
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "startMessage": {
+          "type": "string"
+        },
+        "reminderMessage": {
+          "type": "string"
+        },
+        "startCueId": {
+          "type": "string"
+        },
+        "reminderCueId": {
+          "type": "string"
+        },
+        "items": {
+          "default": [
+            {
+              "id": "heedmar",
+              "name": "Heedmar",
+              "icon": "castle_siege"
+            },
+            {
+              "id": "nuimari",
+              "name": "Nuimari",
+              "icon": "castle_siege"
+            },
+            {
+              "id": "calmlands",
+              "name": "Calmlands",
+              "icon": "castle_siege"
+            },
+            {
+              "id": "marcala",
+              "name": "Marcala",
+              "icon": "castle_siege"
+            }
+          ],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "icon": {
+                "default": "castle_siege",
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "icon"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "enabled",
+        "title",
+        "icon",
+        "color",
+        "durationSeconds",
+        "items"
+      ],
+      "additionalProperties": false
+    },
     "sponsors": {
       "default": {
         "title": "Sponsor",
@@ -748,6 +877,7 @@
     "alerts",
     "cues",
     "cargoShip",
+    "vyrava",
     "sponsors",
     "pronunciations"
   ],

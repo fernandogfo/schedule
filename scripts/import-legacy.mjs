@@ -495,6 +495,24 @@ async function main() {
       'The cargo ship is docked for 20 minutes and takes about 10 minutes to cross the sea.',
   };
 
+  const vyrava = {
+    enabled: true,
+    title: 'Vyrava de Auroria',
+    icon: 'boss',
+    color: '#834bff',
+    durationSeconds: 10800,
+    startMessage: 'The Vyrava is active in {event}.',
+    reminderMessage: 'The Vyrava will be active in {event} in {remaining}.',
+    startCueId: 'start',
+    reminderCueId: 'reminder',
+    items: [
+      { id: 'heedmar', name: 'Heedmar', icon: 'castle_siege' },
+      { id: 'nuimari', name: 'Nuimari', icon: 'castle_siege' },
+      { id: 'calmlands', name: 'Calmlands', icon: 'castle_siege' },
+      { id: 'marcala', name: 'Marcala', icon: 'castle_siege' },
+    ],
+  };
+
   const data = {
     version: 1,
     meta: {
@@ -572,6 +590,7 @@ async function main() {
       priority: cuePriorities[id],
     })),
     cargoShip,
+    vyrava,
     sponsors: existingSchedule?.sponsors ?? {
       title: 'Sponsor',
       icon: 'torch',

@@ -20,6 +20,8 @@ import { EventListPanel } from '../components/EventListPanel';
 import { ScheduleToolbar } from '../components/ScheduleToolbar';
 import { SettingsDialog } from '../components/SettingsDialog';
 import { SponsorPanel } from '../components/SponsorPanel';
+import { VyravaItemCard } from '../components/VyravaItemCard';
+import { VyravaPanel } from '../components/VyravaPanel';
 import { useSchedule } from '../state/ScheduleProvider';
 import { useAudioCues } from '../features/audio/AudioProvider';
 import {
@@ -27,6 +29,10 @@ import {
   filterActiveStates,
   filterFavoriteStates,
 } from '../lib/schedule';
+import {
+  filterRunningVyrava,
+  getVyravaItemStates,
+} from '../lib/vyrava';
 import { DAYLIGHT_SAVING_MINUTES, STORAGE_KEYS } from '../lib/constants';
 import {
   MAX_LAYOUT_COLUMNS,
@@ -42,7 +48,8 @@ type ColumnItem =
   | { kind: 'favorites' }
   | { kind: 'active' }
   | { kind: 'sponsor' }
-  | { kind: 'cargo' };
+  | { kind: 'cargo' }
+  | { kind: 'vyrava' };
 
 interface DropTarget {
   column: number;
@@ -51,6 +58,7 @@ interface DropTarget {
 
 function itemKey(item: ColumnItem): string {
   if (item.kind === 'cargo') return 'cargo';
+  if (item.kind === 'vyrava') return 'vyrava';
   if (item.kind === 'sponsor') return 'sponsor';
   if (item.kind === 'favorites') return 'favorites';
   if (item.kind === 'active') return 'active';
@@ -109,6 +117,7 @@ export function SchedulePage() {
     dismissWarning,
     alertSelections,
     favorites,
+    vyravaTimers,
   } = useSchedule();
   const { unlocked, testAudio } = useAudioCues();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -163,6 +172,14 @@ export function SchedulePage() {
     [favoriteIds, states],
   );
   const activeStates = useMemo(() => filterActiveStates(states), [states]);
+  const vyravaStates = useMemo(() => {
+    if (!data || !data.vyrava.enabled) return [];
+    return getVyravaItemStates(data.vyrava, vyravaTimers, now);
+  }, [data, vyravaTimers, now]);
+  const runningVyravaStates = useMemo(
+    () => filterRunningVyrava(vyravaStates),
+    [vyravaStates],
+  );
 
   const items = useMemo<ColumnItem[]>(() => {
     if (!data) return [];
@@ -174,6 +191,7 @@ export function SchedulePage() {
     baseItems.push({ kind: 'active' });
     baseItems.push({ kind: 'sponsor' });
     if (data.cargoShip.enabled) baseItems.push({ kind: 'cargo' });
+    if (data.vyrava.enabled) baseItems.push({ kind: 'vyrava' });
     return baseItems;
   }, [data]);
 
@@ -413,9 +431,26 @@ export function SchedulePage() {
                           onToggle={() => toggleCategory('active')}
                           onEdit={openEdit}
                           emptyMessage="No events happening right now."
+                          extraRows={
+                            runningVyravaStates.length > 0
+                              ? runningVyravaStates.map((state) => (
+                                  <VyravaItemCard
+                                    key={`vyrava-${state.item.id}`}
+                                    state={state}
+                                    section={data.vyrava}
+                                  />
+                                ))
+                              : undefined
+                          }
+                          extraRowCount={runningVyravaStates.length}
                         />
                       ) : item.kind === 'cargo' ? (
                         <CargoShipCard />
+                      ) : item.kind === 'vyrava' ? (
+                        <VyravaPanel
+                          collapsed={Boolean(collapsedCategories.vyrava)}
+                          onToggle={() => toggleCategory('vyrava')}
+                        />
                       ) : item.kind === 'sponsor' ? (
                         <SponsorPanel
                           collapsed={Boolean(collapsedCategories.sponsor)}

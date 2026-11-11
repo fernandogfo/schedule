@@ -61,6 +61,7 @@ export const STORAGE_KEYS = {
   collapsedCategories: 'archeage-schedule.collapsed-categories.v1',
   panelOrder: 'archeage-schedule.panel-order.v1',
   favorites: 'archeage-schedule.favorites.v1',
+  vyrava: 'archeage-schedule.vyrava.v1',
 } as const;
 
 export const FALLBACK_DATA_URL = '/data/schedule.json';

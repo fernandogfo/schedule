@@ -1,8 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { getCargoPlan, getCargoTargetTime, getServer } from '../../lib/cargo';
 import { getCategory, filterTimersByRegion } from '../../lib/schedule';
-import { getReminderMessage, getStartMessage } from '../../lib/messages';
+import {
+  getReminderMessage,
+  getStartMessage,
+  getVyravaReminderMessage,
+  getVyravaStartMessage,
+} from '../../lib/messages';
 import { getNextOccurrence, getPreviousOccurrence } from '../../lib/time';
+import { getVyravaItemState } from '../../lib/vyrava';
 import { DAYLIGHT_SAVING_MINUTES } from '../../lib/constants';
 import { useSchedule } from '../../state/ScheduleProvider';
 import { useAudioCues } from '../audio/AudioProvider';
@@ -19,6 +25,7 @@ export function AlertEngine() {
     preferences,
     alertSelections,
     speakSelections,
+    vyravaTimers,
   } = useSchedule();
   const { playCue } = useAudioCues();
   const { supported, speak } = useSpeech();
@@ -143,6 +150,58 @@ export function AlertEngine() {
       }
     }
 
+    const vyravaSection = data.vyrava;
+    if (vyravaSection.enabled) {
+      vyravaSection.items.forEach((item) => {
+        const alertKey = `vyrava:${item.id}`;
+        const selected = alertSelections[alertKey] ?? [];
+        if (selected.length === 0) return;
+
+        const startedAt = vyravaTimers[item.id];
+        const state = getVyravaItemState(vyravaSection, item, startedAt, now);
+        if (!state.startedAt || !state.end) return;
+
+        const selectedOptions = data.alerts.options.filter((option) =>
+          selected.includes(option.id),
+        );
+        if (selectedOptions.length === 0) return;
+
+        const wantsSpeech = supported && speakSelections[alertKey] === true;
+        const end = state.end;
+
+        selectedOptions.forEach((option) => {
+          if (option.kind === 'start') {
+            const targetMs = end.valueOf();
+            const delta = nowMs - targetMs;
+            if (delta < 0 || delta > TOLERANCE_MS) return;
+
+            const key = `${alertKey}:${startedAt}:${option.id}`;
+            if (!markFired(key)) return;
+
+            triggerCue(option.cueId ?? vyravaSection.startCueId ?? 'start');
+            if (wantsSpeech) {
+              messages.push(getVyravaStartMessage(vyravaSection, item));
+            }
+            return;
+          }
+
+          const targetMs = end.subtract(option.leadSeconds, 'second').valueOf();
+          const delta = nowMs - targetMs;
+          if (delta < 0 || delta > TOLERANCE_MS) return;
+
+          const key = `${alertKey}:${startedAt}:${option.id}`;
+          if (!markFired(key)) return;
+
+          triggerCue(option.cueId ?? vyravaSection.reminderCueId ?? 'reminder');
+          if (wantsSpeech) {
+            messages.push(
+              getVyravaReminderMessage(vyravaSection, item, option.leadSeconds),
+            );
+          }
+        });
+      });
+    }
+
     if (bestCue) playCue(bestCue);
     if (messages.length > 0) {
       window.setTimeout(() => {
@@ -162,6 +221,7 @@ export function AlertEngine() {
     speak,
     speakSelections,
     supported,
+    vyravaTimers,
   ]);
 
   return null;
