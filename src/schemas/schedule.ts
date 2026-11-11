@@ -187,7 +187,7 @@ export const VYRAVA_DEFAULT_ITEMS = [
 
 export const vyravaSchema = z.object({
   enabled: z.boolean().default(true),
-  title: z.string().min(1).default('Vyrava de Auroria'),
+  title: z.string().min(1).default('Vyrava Auroria'),
   icon: z.string().min(1).default('boss'),
   color: z.string().min(1).default('#834bff'),
   durationSeconds: z.number().int().positive().default(10_800),
@@ -288,7 +288,7 @@ export const scheduleDataSchema = z
     }),
     vyrava: vyravaSchema.default({
       enabled: true,
-      title: 'Vyrava de Auroria',
+      title: 'Vyrava Auroria',
       icon: 'boss',
       color: '#834bff',
       durationSeconds: 10_800,

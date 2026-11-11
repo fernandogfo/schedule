@@ -497,7 +497,7 @@ async function main() {
 
   const vyrava = {
     enabled: true,
-    title: 'Vyrava de Auroria',
+    title: 'Vyrava Auroria',
     icon: 'boss',
     color: '#834bff',
     durationSeconds: 10800,

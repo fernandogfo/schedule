@@ -20,7 +20,7 @@ const items: VyravaItem[] = [
 
 const section: VyravaSection = {
   enabled: true,
-  title: 'Vyrava de Auroria',
+  title: 'Vyrava Auroria',
   icon: 'boss',
   color: '#834bff',
   durationSeconds: 3 * 60 * 60,
@@ -201,7 +201,7 @@ describe('schedule data defaults', () => {
     });
 
     expect(parsed.vyrava.enabled).toBe(true);
-    expect(parsed.vyrava.title).toBe('Vyrava de Auroria');
+    expect(parsed.vyrava.title).toBe('Vyrava Auroria');
     expect(parsed.vyrava.durationSeconds).toBe(10_800);
     expect(parsed.vyrava.items.map((item) => item.id)).toEqual([
       'heedmar',
