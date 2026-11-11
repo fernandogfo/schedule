@@ -100,6 +100,37 @@ def get_all_phrases() -> list[str]:
 
         phrases.add(f"Audio messages enabled for {ev['name']}.")
 
+    # Cargo ship alert menu toggle phrases
+    for server in data.get("cargoShip", {}).get("servers", []):
+        phrases.add(f"Audio messages enabled for the cargo ship on {server['name']}.")
+
+    # Vyrava speech
+    vyrava = data.get("vyrava") or {}
+    if vyrava.get("enabled"):
+        vy_start_tmpl = vyrava.get("startMessage") or "The Vyrava is active in {event}."
+        vy_rem_tmpl = (
+            vyrava.get("reminderMessage")
+            or "The Vyrava will be active in {event} in {remaining}."
+        )
+        vy_dur_str = format_duration(vyrava.get("durationSeconds") or 0)
+        for item in vyrava.get("items", []):
+            name = item.get("name", "")
+            base_vars = {
+                "event": name,
+                "time": "",
+                "duration": vy_dur_str,
+                "label": vyrava.get("title", ""),
+            }
+            phrases.add(interpolate(vy_start_tmpl, {**base_vars, "remaining": "now"}))
+            for lead_sec in leads:
+                phrases.add(
+                    interpolate(
+                        vy_rem_tmpl,
+                        {**base_vars, "remaining": format_duration(lead_sec)},
+                    )
+                )
+            phrases.add(f"Audio messages enabled for the Vyrava in {name}.")
+
     return sorted(phrases)
 
 
