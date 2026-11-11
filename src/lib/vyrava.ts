@@ -3,6 +3,10 @@ import type { VyravaItem, VyravaSection } from '../schemas/schedule';
 
 export type VyravaTimers = Record<string, string>;
 
+export function getVyravaKey(itemId: string): string {
+  return `vyrava:${itemId}`;
+}
+
 export interface VyravaItemState {
   item: VyravaItem;
   startedAt: Dayjs | null;

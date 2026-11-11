@@ -8,7 +8,7 @@ import {
   getVyravaStartMessage,
 } from '../../lib/messages';
 import { getNextOccurrence, getPreviousOccurrence } from '../../lib/time';
-import { getVyravaItemState } from '../../lib/vyrava';
+import { getVyravaItemState, getVyravaKey } from '../../lib/vyrava';
 import { DAYLIGHT_SAVING_MINUTES } from '../../lib/constants';
 import { useSchedule } from '../../state/ScheduleProvider';
 import { useAudioCues } from '../audio/AudioProvider';
@@ -153,7 +153,7 @@ export function AlertEngine() {
     const vyravaSection = data.vyrava;
     if (vyravaSection.enabled) {
       vyravaSection.items.forEach((item) => {
-        const alertKey = `vyrava:${item.id}`;
+        const alertKey = getVyravaKey(item.id);
         const selected = alertSelections[alertKey] ?? [];
         if (selected.length === 0) return;
 

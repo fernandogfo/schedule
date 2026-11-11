@@ -2,11 +2,15 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { AlertMenu } from './AlertMenu';
 import { useSchedule } from '../state/ScheduleProvider';
 import { formatCountdown, formatTimeOfDay } from '../lib/time';
-import type { VyravaItemState } from '../lib/vyrava';
+import { getVyravaKey, type VyravaItemState } from '../lib/vyrava';
 import type { VyravaSection } from '../schemas/schedule';
 
 interface VyravaItemCardProps {
@@ -15,8 +19,11 @@ interface VyravaItemCardProps {
 }
 
 export function VyravaItemCard({ state, section }: VyravaItemCardProps) {
-  const { data, now, startVyravaTimer } = useSchedule();
+  const { data, now, startVyravaTimer, isFavorite, toggleFavorite } =
+    useSchedule();
   const { item, startedAt, end, remainingMs, counting, running } = state;
+  const itemKey = getVyravaKey(item.id);
+  const favorite = isFavorite(itemKey);
   const durationLabel = `${Math.round(section.durationSeconds / 3600)}h`;
   const countdown = counting ? formatCountdown(remainingMs) : '';
   const alertOptions = data?.alerts.options ?? [];
@@ -62,8 +69,27 @@ export function VyravaItemCard({ state, section }: VyravaItemCardProps) {
             <Typography variant="caption">{countdown}</Typography>
           </Box>
           <Box className="event-buttons">
+            <Tooltip
+              title={favorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              <IconButton
+                size="small"
+                onClick={() => toggleFavorite(itemKey)}
+                aria-label={
+                  favorite ? 'Remove from favorites' : 'Add to favorites'
+                }
+                aria-pressed={favorite}
+                color={favorite ? 'warning' : 'default'}
+              >
+                {favorite ? (
+                  <StarIcon fontSize="small" />
+                ) : (
+                  <StarBorderIcon fontSize="small" />
+                )}
+              </IconButton>
+            </Tooltip>
             <AlertMenu
-              alertKey={`vyrava:${item.id}`}
+              alertKey={itemKey}
               options={alertOptions}
               sampleText={`the Vyrava in ${item.name}`}
             />

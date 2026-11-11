@@ -32,6 +32,7 @@ import {
 import {
   filterRunningVyrava,
   getVyravaItemStates,
+  getVyravaKey,
 } from '../lib/vyrava';
 import { DAYLIGHT_SAVING_MINUTES, STORAGE_KEYS } from '../lib/constants';
 import {
@@ -179,6 +180,11 @@ export function SchedulePage() {
   const runningVyravaStates = useMemo(
     () => filterRunningVyrava(vyravaStates),
     [vyravaStates],
+  );
+  const favoriteVyravaStates = useMemo(
+    () =>
+      vyravaStates.filter((state) => favoriteIds.has(getVyravaKey(state.item.id))),
+    [favoriteIds, vyravaStates],
   );
 
   const items = useMemo<ColumnItem[]>(() => {
@@ -419,6 +425,18 @@ export function SchedulePage() {
                           onToggle={() => toggleCategory('favorites')}
                           onEdit={openEdit}
                           emptyMessage="No favorite events yet. Tap the star on any event."
+                          extraRows={
+                            favoriteVyravaStates.length > 0
+                              ? favoriteVyravaStates.map((state) => (
+                                  <VyravaItemCard
+                                    key={`vyrava-${state.item.id}`}
+                                    state={state}
+                                    section={data.vyrava}
+                                  />
+                                ))
+                              : undefined
+                          }
+                          extraRowCount={favoriteVyravaStates.length}
                         />
                       ) : item.kind === 'active' ? (
                         <EventListPanel

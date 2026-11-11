@@ -4,6 +4,7 @@ import {
   filterRunningVyrava,
   getVyravaItemState,
   getVyravaItemStates,
+  getVyravaKey,
   normalizeVyravaTimers,
 } from './vyrava';
 import { getVyravaReminderMessage, getVyravaStartMessage } from './messages';
@@ -137,6 +138,13 @@ describe('getVyravaItemStates', () => {
     expect(states[1].counting).toBe(false);
     expect(states[1].running).toBe(false);
     expect(states[3].running).toBe(true);
+  });
+});
+
+describe('getVyravaKey', () => {
+  it('builds a unique key per item', () => {
+    expect(getVyravaKey('heedmar')).toBe('vyrava:heedmar');
+    expect(getVyravaKey('marcala')).toBe('vyrava:marcala');
   });
 });
 
